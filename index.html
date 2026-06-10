@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VectorAI DB: Vector Database for AI Agents</title>
+<meta name="description" content="VectorAI DB is the vector database for AI agents. Deploy agent memory on-premises, at the edge, in air-gapped environments, and in the cloud. Sub-15ms retrieval. Full infrastructure ownership.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'tabler-icons';font-style:normal;font-weight:400;font-display:block;src:url(data:font/woff2;base64,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) format('woff2')}
+.ti{font-family:'tabler-icons'!important;font-style:normal;font-weight:400!important;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;display:inline-block;speak:never}
+.ti-arrow-right:before{content:"\ea1f"}
+.ti-arrow-up-right:before{content:"\ea24"}
+.ti-binary-tree:before{content:"\f5d4"}
+.ti-bolt:before{content:"\ea38"}
+.ti-brand-discord:before{content:"\ece3"}
+.ti-brand-python:before{content:"\ed01"}
+.ti-building-factory:before{content:"\ee1c"}
+.ti-calendar:before{content:"\ea53"}
+.ti-camera:before{content:"\ea54"}
+.ti-check:before{content:"\ea5e"}
+.ti-chevron-down:before{content:"\ea5f"}
+.ti-chevron-left:before{content:"\ea60"}
+.ti-chevron-right:before{content:"\ea61"}
+.ti-copy:before{content:"\ea7a"}
+.ti-cpu:before{content:"\ef8e"}
+.ti-credit-card-off:before{content:"\ed11"}
+.ti-file-stack:before{content:"\f503"}
+.ti-heart-rate-monitor:before{content:"\ef61"}
+.ti-link:before{content:"\eade"}
+.ti-lock:before{content:"\eae2"}
+.ti-microphone:before{content:"\eaf0"}
+.ti-player-play:before{content:"\ed46"}
+.ti-rocket:before{content:"\ec45"}
+.ti-route:before{content:"\eb17"}
+.ti-search:before{content:"\eb1c"}
+.ti-shield-lock:before{content:"\ed58"}
+.ti-terminal-2:before{content:"\ebef"}
+.ti-topology-ring:before{content:"\f5df"}
+.ti-topology-star-3:before{content:"\f5e1"}
+.ti-users-group:before{content:"\fa21"}
+.ti-wifi-off:before{content:"\ecfa"}
+.ti-star-filled:before{content:"\f6a6"}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1A73E8; --teal:#33A7B5; --amber:#FFB91E; --navy:#0D1B2A; --ink:#111318;
+  --card-dark:#111318; --text:#0A0E14; --muted:#374151; --faint:#4B5563;
+  --border:#D1D5DB; --surface:#F7F8FA; --tint:#F0F7FF;
+  --sans:'Source Sans 3',sans-serif; --mono:'Source Code Pro',monospace;
+  --gutter:200px;
+}
+@media(max-width:1439px){:root{--gutter:140px}}
+@media(max-width:1279px){:root{--gutter:80px}}
+@media(max-width:1023px){:root{--gutter:40px}}
+@media(max-width:767px){:root{--gutter:16px}}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--text);background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.col{padding-left:var(--gutter);padding-right:var(--gutter)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;height:60px;display:flex;align-items:center;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+nav.scrolled{border-bottom-color:var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
+.nav-logo{font-family:var(--mono);font-size:14px;font-weight:500;display:flex;align-items:center;gap:9px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.nav-links{display:flex;gap:2.25rem;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:#374151;transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{display:flex;gap:9px}
+.btn-s-ghost{font-family:var(--sans);font-size:13px;padding:7px 16px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text);cursor:pointer;transition:all .15s}
+.btn-s-ghost:hover{background:var(--surface);border-color:#c4c8cf}
+.btn-s-primary{font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 18px;border:none;border-radius:6px;background:var(--blue);color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 2px 8px rgba(26,115,232,.3)}
+.btn-s-primary:hover{background:#1255C4}
+@media(max-width:860px){.nav-links{display:none}}
+
+/* KICKER */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:1.25rem}
+.kicker::before{content:'';width:20px;height:1px;background:var(--teal)}
+
+/* BUTTONS LG */
+.btn-lg{font-family:var(--sans);font-size:15px;font-weight:600;padding:12px 28px;border-radius:7px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s;border:none}
+.btn-lg-primary{background:var(--blue);color:#fff;box-shadow:0 4px 16px rgba(26,115,232,.4),0 1px 3px rgba(26,115,232,.3)}
+.btn-lg-primary:hover{background:#1255C4;transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,115,232,.5),0 2px 6px rgba(26,115,232,.35)}
+.btn-lg-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-lg-ghost:hover{border-color:#c4c8cf;transform:translateY(-1px)}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:46% 54%;min-height:calc(100vh - 60px);border-bottom:1px solid var(--border);background:#fff}
+.hero-left{padding:6rem 3rem 5rem var(--gutter);display:flex;flex-direction:column;justify-content:center;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--teal);border:1px solid rgba(51,167,181,.35);border-radius:100px;padding:5px 14px;margin-bottom:2rem;width:fit-content}
+.hero-h1{font-size:56px;font-weight:600;letter-spacing:-.04em;line-height:1.07;margin-bottom:1.5rem;color:#0A0E14}
+.hero-sub{font-size:18px;font-weight:400;line-height:1.7;color:#374151;max-width:430px;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1.75rem}
+.install-line{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0A0E14;border-radius:8px;padding:12px 16px;max-width:380px;box-shadow:0 4px 14px rgba(10,14,20,.18)}
+.install-cmd{font-family:var(--mono);font-size:12.5px;color:var(--teal)}
+.install-copy{font-family:var(--mono);font-size:11px;color:#5b7a99;background:none;border:none;cursor:pointer;transition:color .15s;display:flex;align-items:center;gap:5px}
+.install-copy:hover{color:var(--teal)}
+.fade-item{opacity:0;transform:translateY(14px);animation:rise .5s ease forwards}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+.d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}.d4{animation-delay:.29s}.d5{animation-delay:.37s}
+
+.hero-right{background:#fff;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#vspace{width:100%;height:100%;display:block}
+.vreadout{position:absolute;bottom:32px;right:40px;font-family:var(--mono);font-size:12px;color:var(--teal);opacity:0;transition:opacity .4s}
+.vreadout.show{opacity:1}
+
+@media(max-width:1023px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{border-bottom:1px solid var(--border);padding:4rem var(--gutter) 3.5rem}
+  .hero-right{min-height:430px}
+  .hero-h1{font-size:42px}
+}
+@media(max-width:767px){.hero-h1{font-size:34px}.btn-lg{width:100%;justify-content:center}}
+
+/* LOGO BAR */
+.logobar{border-bottom:1px solid var(--border);padding-top:1.4rem;padding-bottom:1.4rem;display:flex;align-items:center;gap:2.5rem;overflow:hidden}
+.logobar-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:14px}
+.dl-stat{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:500;white-space:nowrap}
+.logo-track{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.logo-scroll{display:flex;gap:3.75rem;animation:marq 24s linear infinite;width:max-content}
+@keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.logo-i{font-size:13px;font-weight:600;color:var(--faint);opacity:.5;white-space:nowrap}
+
+/* DOWNLOADS BAND */
+.dlband{border-bottom:1px solid var(--border);padding-top:3.5rem;padding-bottom:3.5rem;text-align:center}
+.dl-num{font-family:var(--mono);font-size:46px;font-weight:500;letter-spacing:-.04em;color:var(--blue);line-height:1}
+.dl-cap{font-size:14px;color:var(--muted);margin-top:10px}
+@media(max-width:767px){.dl-num{font-size:34px}}
+
+/* SECTION DEFAULTS */
+.section{padding-top:6rem;padding-bottom:6rem}
+.sec-h2{font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:1rem;color:#0A0E14}
+.sec-sub{font-size:17px;color:#374151;line-height:1.7;max-width:580px;font-weight:400}
+.fi{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.fi.on{opacity:1;transform:translateY(0)}
+@media(max-width:767px){.sec-h2{font-size:30px}.section{padding-top:4rem;padding-bottom:4rem}}
+/* SLIDER */
+.slider-wrap{position:relative;margin-top:3rem}
+.slider-view{overflow:hidden}
+.slider-track{display:flex;gap:20px;transition:transform .3s ease}
+.sc-card{flex:0 0 calc((100% - 40px)/3);border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#fff;transition:all .2s;display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(10,14,20,.08),0 1px 3px rgba(10,14,20,.06)}
+.sc-card:hover{border-color:#9CA3AF;box-shadow:0 10px 30px rgba(10,14,20,.14),0 2px 6px rgba(10,14,20,.08);transform:translateY(-2px)}
+.sc-top{background:var(--card-dark);height:180px;display:flex;align-items:center;justify-content:center;gap:28px}
+.sc-top i{font-size:40px;color:#9CA3AF;opacity:.55;transition:opacity .2s}
+.sc-top .vdb-mark{font-family:var(--mono);font-size:13px;font-weight:500;color:#9CA3AF;opacity:.55;border:1.5px solid currentColor;border-radius:8px;padding:8px 10px;transition:opacity .2s}
+.sc-card:hover .sc-top i,.sc-card:hover .sc-top .vdb-mark{opacity:1}
+.sc-bottom{padding:22px 24px;display:flex;flex-direction:column;gap:7px;flex:1}
+.sc-name{font-size:16px;font-weight:600;color:#0A0E14}
+.sc-desc{font-size:14px;color:#374151;line-height:1.6;flex:1}
+.sc-link{font-size:13px;color:var(--teal);display:inline-flex;align-items:center;gap:5px;margin-top:6px}
+.sc-link:hover{text-decoration:underline}
+.slide-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;z-index:2;box-shadow:0 3px 10px rgba(10,14,20,.1)}
+.slide-btn:hover:not(:disabled){border-color:var(--blue)}
+.slide-btn:hover:not(:disabled) i{color:var(--blue)}
+.slide-btn i{font-size:18px;color:var(--muted);transition:color .15s}
+.slide-btn:disabled{opacity:.3;cursor:default}
+.slide-prev{left:-20px}.slide-next{right:-20px}
+.slider-dots{display:flex;gap:7px;justify-content:center;margin-top:1.75rem}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:background .2s;cursor:pointer;border:none;padding:0}
+.sdot.active{background:var(--blue)}
+.sc-more{display:block;text-align:center;margin-top:1.25rem;font-size:13px;color:var(--teal)}
+.sc-more:hover{text-decoration:underline}
+@media(max-width:1023px){.sc-card{flex-basis:calc((100% - 20px)/2)}}
+@media(max-width:767px){.sc-card{flex-basis:100%}.slide-prev{left:-8px}.slide-next{right:-8px}}
+
+/* PROBLEMS */
+.problems{border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3.5rem}
+.prob-card{background:var(--card-dark);border-radius:12px;border:1px solid rgba(255,255,255,.07);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s}
+.prob-card:hover{border-color:rgba(255,255,255,.14)}
+.prob-copy{padding:28px 28px 20px}
+.prob-icn{font-size:24px;color:#4FD1E0;margin-bottom:14px;display:block}
+.prob-title{font-size:16px;font-weight:600;color:#FFFFFF;line-height:1.4;margin-bottom:10px}
+.prob-body{font-size:14px;color:rgba(255,255,255,.68);line-height:1.7}
+.prob-viz{padding:24px 28px 28px;margin-top:auto}
+/* viz1 chain */
+.chain{display:flex;align-items:center;justify-content:space-between}
+.chain-step{width:14px;height:14px;border-radius:50%;background:#3D5168;flex-shrink:0;position:relative}
+.chain-link{flex:1;height:2.5px;background:#3D5168;margin:0 3px;position:relative;overflow:visible}
+.chain-link.stretch{background:rgba(239,68,68,.85);animation:tension 2.6s ease-in-out infinite}
+@keyframes tension{0%,100%{transform:scaleX(1);opacity:.55}50%{transform:scaleX(1.06);opacity:1}}
+.chain-lat{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;font-weight:500;color:#FF6B6B;white-space:nowrap}
+.chain-cap{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.45);margin-top:30px;text-align:center}
+.chain{position:relative}
+.chain-packet{position:absolute;width:8px;height:8px;border-radius:50%;background:#FFB91E;top:50%;left:0;margin-top:-4px;box-shadow:0 0 8px rgba(255,185,30,.7);opacity:0}
+.chain-step.lit{background:#FFB91E;box-shadow:0 0 10px rgba(255,185,30,.6);transform:scale(1.3)}
+/* viz2 perimeter */
+.perim{position:relative;height:170px;display:flex;align-items:center;justify-content:center}
+.perim svg{width:100%;height:100%}
+.p-lbl{font-family:var(--mono);font-size:9px;font-weight:500;fill:rgba(79,209,224,.85)}
+/* viz3 status */
+.statpanel{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:16px 18px}
+.st-hdr{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px;display:flex;justify-content:space-between}
+.st-live{color:var(--teal)}
+.st-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12.5px;color:rgba(255,255,255,.9)}
+.st-row:last-of-type{border-bottom:none}
+.st-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.st-dot.r{background:#EF4444}
+.st-dot.t{background:var(--teal);animation:pulse 2.4s ease-in-out infinite}
+.st-dot.g{background:#22C55E;animation:pulse 2.4s .5s ease-in-out infinite}
+.st-val{margin-left:auto;font-family:var(--mono);font-size:10.5px}
+.st-val.fail{color:#EF4444}.st-val.ok-t{color:var(--teal)}.st-val.ok-g{color:#22C55E}
+.st-counter{font-family:var(--mono);font-size:17px;color:#22C55E;margin-top:12px;font-weight:500}
+.st-counter span{font-size:9.5px;color:rgba(255,255,255,.3);margin-left:7px;font-weight:400}
+@media(max-width:1023px){.prob-grid{grid-template-columns:1fr}}
+
+/* STATS */
+.stats{border-bottom:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:3rem}
+.stat{position:relative;padding-top:24px}
+.stat::before{content:'';position:absolute;top:0;left:0;width:56px;height:2px;opacity:0;transition:opacity .6s}
+.stat.b::before{background:linear-gradient(90deg,var(--blue),transparent);}
+.stat.t::before{background:linear-gradient(90deg,var(--teal),transparent)}
+.stat.a::before{background:linear-gradient(90deg,var(--amber),transparent)}
+.fi.on .stat::before{opacity:1}
+.stat-lbl{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#4B5563;margin-bottom:18px}
+.stat-num{font-family:var(--mono);font-size:64px;font-weight:600;letter-spacing:-.05em;color:var(--blue);line-height:1;margin-bottom:18px;text-shadow:0 2px 20px rgba(26,115,232,.18)}
+.stat-desc{font-size:15px;color:#374151;line-height:1.65;max-width:250px}
+.recall-viz{margin-top:18px}
+.recall-dots{display:flex;gap:7px;flex-wrap:wrap;max-width:200px}
+.rdot{width:13px;height:13px;border-radius:50%;background:var(--border);transition:background .3s}
+.rdot.hit{background:var(--teal)}
+.rdot.miss{animation:missbounce .5s ease .9s}
+@keyframes missbounce{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.recall-cap{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:9px}
+.bench-note{font-size:11px;color:var(--faint);margin-top:3.5rem;line-height:1.7;max-width:760px}
+.bench-note a{color:var(--teal)}
+@media(max-width:1023px){.stats-grid{grid-template-columns:1fr;gap:36px}}
+/* BENEFITS */
+.benefits{border-bottom:1px solid var(--border)}
+.ben-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3rem}
+.ben-card{padding:30px;border-radius:12px;transition:background .2s}
+.ben-card.tint{background:var(--tint)}
+.ben-card:hover .ben-ill svg .hl{stroke:var(--blue)}
+.ben-ill{width:80px;height:80px;margin-bottom:18px}
+.ben-ill svg{width:100%;height:100%}
+.ben-num{font-family:var(--mono);font-size:11px;color:var(--teal);letter-spacing:.04em;margin-bottom:10px;display:block}
+.ben-title{font-size:17px;font-weight:600;line-height:1.35;margin-bottom:9px;color:#0A0E14}
+.ben-body{font-size:14.5px;color:#374151;line-height:1.65}
+@media(max-width:1023px){.ben-grid{grid-template-columns:1fr}}
+
+/* VIDEO */
+.video{border-bottom:1px solid var(--border);display:grid;grid-template-columns:38% 62%;align-items:center;gap:48px}
+.vid-frame{aspect-ratio:16/9;border:1px solid var(--border);border-radius:14px;position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;transition:all .25s;background:linear-gradient(135deg,rgba(26,115,232,.05),rgba(51,167,181,.05));box-shadow:0 8px 30px rgba(10,14,20,.1)}
+.vid-frame:hover{border-color:var(--blue);box-shadow:0 8px 36px rgba(26,115,232,.12)}
+.play-ring{width:60px;height:60px;border-radius:50%;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.vid-frame:hover .play-ring{border-color:var(--blue);box-shadow:0 0 30px rgba(26,115,232,.25)}
+.play-ring i{font-size:20px;color:var(--muted);margin-left:3px;transition:color .25s}
+.vid-frame:hover .play-ring i{color:var(--blue)}
+.vid-lbl{position:absolute;bottom:18px;left:22px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--faint)}
+.dur-pill{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:100px;padding:3px 11px;display:inline-block;margin-top:14px}
+@media(max-width:1023px){.video{grid-template-columns:1fr;gap:32px}}
+
+/* GET STARTED */
+.getstarted{border-bottom:1px solid var(--border);display:grid;grid-template-columns:40% 60%}
+.gs-left{padding:6rem 3rem 6rem var(--gutter);display:flex;flex-direction:column;justify-content:center}
+.gs-right::before{content:"";position:absolute;top:-60px;right:-60px;width:340px;height:340px;background:radial-gradient(circle,rgba(26,115,232,.22),transparent 65%);pointer-events:none}
+.gs-right>*{position:relative;z-index:1}
+.gs-right{background:#070B12;padding:3.5rem 3rem 3.5rem 3rem;padding-right:var(--gutter);display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden}
+.fw-logos{display:flex;gap:22px;align-items:center;margin-bottom:6px}
+.fw-logo{font-family:var(--mono);font-size:12px;font-weight:500;color:rgba(169,184,195,.65);transition:color .2s;display:flex;align-items:center;gap:6px}
+.fw-logo.active{color:#4FD1E0}
+.fw-logo i{font-size:15px}
+.tab-row{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:11.5px;padding:6px 14px;border:1px solid rgba(79,209,224,.35);border-radius:5px;color:rgba(169,184,195,.85);cursor:pointer;background:transparent;transition:all .15s}
+.tab.active,.tab:hover{border-color:#4FD1E0;color:#070B12;background:#4FD1E0;font-weight:500}
+.code-shell{background:#0E1420;border:1px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
+.code-file{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.55)}
+.code-copy{font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.6);background:none;border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:4px 11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
+.code-copy:hover{color:#4FD1E0;border-color:#4FD1E0}
+.code-body{padding:18px 20px;font-family:var(--mono);font-size:12.5px;line-height:1.95;min-height:330px;transition:opacity .15s}
+.code-body.fading{opacity:0}
+.cl{display:block;color:rgba(200,212,224,.92)}
+.ck{color:#5FDCEB}.cs{color:#FFC857}.cc{color:#5A7290}.cn{color:#FF9E64}
+.gs-desc{font-size:14.5px;color:rgba(255,255,255,.72);line-height:1.7;min-height:44px}
+.gs-all{font-size:13px;font-weight:600;color:#4FD1E0}
+.gs-all:hover{text-decoration:underline}
+@media(max-width:1023px){.getstarted{grid-template-columns:1fr}.gs-left{padding:4rem var(--gutter) 3rem}.gs-right{padding:2.5rem var(--gutter)}}
+
+/* COMPARISON */
+.compare{border-bottom:1px solid var(--border)}
+.cmp-table{width:100%;border-collapse:collapse;margin-top:3rem}
+.cmp-table th{font-size:13px;font-weight:600;text-align:left;padding:14px 18px;border-bottom:1px solid var(--border)}
+.cmp-table th.vdb{color:var(--blue)}
+.cmp-table td{font-size:14px;color:var(--muted);padding:16px 18px;border-bottom:1px solid var(--border)}
+.cmp-table td.feat{color:var(--text);font-weight:400}
+.cmp-table td.vdb{border-left:3px solid var(--blue);color:#0B7C8A;font-weight:700;background:rgba(26,115,232,.035)}
+.cmp-table th.vdb{border-left:3px solid var(--blue);background:rgba(26,115,232,.05)}
+.cmp-row{opacity:0;transform:translateX(-12px);transition:opacity .45s ease,transform .45s ease}
+.cmp-row.on{opacity:1;transform:translateX(0)}
+.cmp-check{display:inline-flex;align-items:center;gap:6px}
+.cmp-check i{font-size:15px;transform:scale(0);transition:transform .2s ease .15s}
+.cmp-row.on .cmp-check i{transform:scale(1)}
+.cmp-x{color:var(--faint);font-family:var(--mono);font-size:13px}
+@media(max-width:767px){.cmp-table{font-size:12px}.cmp-table th,.cmp-table td{padding:10px 8px}}
+
+/* PERSONAS */
+.personas{border-bottom:1px solid var(--border)}
+.per-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:3rem}
+.per-card{display:flex;flex-direction:column}
+.per-ill{height:104px;background:#161A22;border-radius:9px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.per-ill svg{width:80%;height:75%}
+.per-icn{font-size:26px;color:#6B7B8F;margin-bottom:11px;transition:color .2s;display:block}
+.per-card:hover .per-icn{color:var(--blue)}
+.per-tag{font-family:var(--mono);font-size:11px;font-weight:500;color:#0B8A99;margin-bottom:10px;display:block}
+.per-title{font-size:17px;font-weight:600;margin-bottom:8px;color:#0A0E14}
+.per-body{font-size:14px;color:#374151;line-height:1.65;margin-bottom:12px;flex:1}
+.per-deploy{font-family:var(--mono);font-size:10.5px;color:#4B5563;line-height:1.7}
+@media(max-width:1023px){.per-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.per-grid{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{border-bottom:1px solid var(--border)}
+.faq-inner{max-width:740px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);cursor:pointer}
+.faq-item:first-of-type{border-top:1px solid var(--border)}
+.faq-q{padding:1.4rem 0;font-size:16.5px;font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:1.25rem;color:#1F2937;transition:color .15s;user-select:none}
+.faq-item:hover .faq-q,.faq-item.open .faq-q{color:var(--text)}
+.faq-q i{font-size:18px;color:var(--faint);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-q i{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a p{font-size:15px;color:var(--muted);line-height:1.8;padding-bottom:1.4rem}
+.faq-item.open .faq-a{max-height:260px}
+
+/* FINAL CTA */
+.final{position:relative;padding-top:8rem;padding-bottom:8rem;text-align:center;border-bottom:1px solid var(--border);overflow:hidden}
+.final-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:760px;height:480px;background:radial-gradient(ellipse,rgba(26,115,232,.07),transparent 65%);pointer-events:none;opacity:0;transition:opacity .8s}
+.fi.on .final-glow{opacity:1}
+.final-h2{font-size:52px;font-weight:600;letter-spacing:-.04em;line-height:1.1;margin-bottom:1.25rem;position:relative;color:#0A0E14}
+.final-sub{font-size:18px;color:var(--muted);margin-bottom:2.75rem;position:relative}
+.final-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+@media(max-width:767px){.final-h2{font-size:34px}}
+
+/* BLOG HIGHLIGHTS */
+.blog{border-bottom:1px solid var(--border)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3rem}
+.blog-card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 14px rgba(10,14,20,.07);transition:all .2s}
+.blog-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(10,14,20,.13);border-color:#9CA3AF}
+.blog-top{height:140px;background:#0A0E14;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.blog-tag{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:10px;font-weight:500;color:var(--teal);border:1px solid rgba(51,167,181,.5);border-radius:4px;padding:3px 9px;background:rgba(51,167,181,.08)}
+.blog-glyph{font-size:46px;color:rgba(51,167,181,.5)}
+.blog-body{padding:22px 24px;display:flex;flex-direction:column;gap:9px;flex:1}
+.blog-title{font-size:17px;font-weight:600;line-height:1.35;color:#0A0E14}
+.blog-ex{font-size:14px;color:#374151;line-height:1.6;flex:1}
+.blog-read{font-size:13px;font-weight:600;color:var(--blue);display:inline-flex;align-items:center;gap:5px;margin-top:4px}
+.blog-read:hover{gap:8px}
+@media(max-width:1023px){.blog-grid{grid-template-columns:1fr}}
+
+/* FREE TIER */
+.freetier{border-bottom:1px solid var(--border)}
+.ft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:3rem}
+.ft-card{border:1px solid var(--border);border-radius:14px;padding:32px 28px;background:#fff;box-shadow:0 4px 14px rgba(10,14,20,.06);transition:all .2s;display:flex;flex-direction:column;gap:14px}
+.ft-card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(10,14,20,.12);border-color:#9CA3AF}
+.ft-icn{width:46px;height:46px;border-radius:11px;background:rgba(26,115,232,.1);display:flex;align-items:center;justify-content:center;font-size:23px;color:var(--blue)}
+.ft-title{font-size:18px;font-weight:600;color:#0A0E14}
+.ft-desc{font-size:14.5px;color:#374151;line-height:1.6}
+.ft-community{margin-top:24px;border:1px solid var(--border);border-radius:14px;padding:28px 32px;background:#0A0E14;display:flex;align-items:center;gap:20px;box-shadow:0 8px 28px rgba(10,14,20,.16)}
+.ft-comm-icn{width:48px;height:48px;border-radius:11px;background:#5865F2;display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;flex-shrink:0}
+.ft-comm-text{flex:1}
+.ft-comm-title{font-size:18px;font-weight:600;color:#fff;margin-bottom:5px}
+.ft-comm-desc{font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.6}
+.ft-comm-btn{flex-shrink:0}
+@media(max-width:1023px){.ft-grid{grid-template-columns:1fr}.ft-community{flex-direction:column;align-items:flex-start;gap:16px}}
+
+/* FOOTER */
+footer{padding-top:2.5rem;padding-bottom:2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.f-logo{font-family:var(--mono);font-size:13px;color:var(--faint)}
+.f-links{display:flex;gap:1.75rem;list-style:none}
+.f-links a{font-size:13px;color:var(--faint);transition:color .15s}
+.f-links a:hover{color:var(--text)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav id="nav"><div class="nav-inner col">
+  <div class="nav-logo"><div class="nav-dot"></div>VectorAI DB</div>
+  <ul class="nav-links"><li><a href="#">Docs</a></li><li><a href="#">Pricing</a></li><li><a href="#">Use cases</a></li><li><a href="#">Blog</a></li></ul>
+  <div class="nav-cta"><button class="btn-s-ghost">Download</button><button class="btn-s-primary">Join community</button></div>
+</div></nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-h1"><span class="fade-item d2" style="display:block">Deploy AI agents with persistent memory.</span><span class="fade-item d3" style="display:block">Ship them anywhere.</span></h1>
+    <p class="hero-sub fade-item d4">Sub-15ms retrieval on your own hardware. On-premises, at the edge, air-gapped, or cloud. Same architecture throughout.</p>
+    <div class="hero-actions fade-item d5">
+      <button class="btn-lg btn-lg-primary"><i class="ti ti-rocket" aria-hidden="true"></i>Start building free</button>
+      <button class="btn-lg btn-lg-ghost">Read the docs</button>
+    </div>
+    <div class="install-line fade-item d5">
+      <span class="install-cmd">pip install vectoraidb-client</span>
+      <button class="install-copy" onclick="copyText(this,'pip install vectoraidb-client')"><i class="ti ti-copy" aria-hidden="true"></i>Copy</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <svg id="vspace" aria-label="Live vector similarity search visualisation"></svg>
+    <div class="vreadout" id="vreadout">13ms &middot; 5 results &middot; 99.1% recall</div>
+  </div>
+</section>
+
+<!-- LOGO BAR -->
+<div class="logobar col">
+  <span class="logobar-lbl">Trusted by</span>
+  <div class="logo-track"><div class="logo-scroll">
+    <span class="logo-i">Intuit</span><span class="logo-i">Lufthansa</span><span class="logo-i">Sabre</span><span class="logo-i">American Airlines</span><span class="logo-i">ConocoPhillips</span><span class="logo-i">Academy Bank</span>
+    <span class="logo-i">Intuit</span><span class="logo-i">Lufthansa</span><span class="logo-i">Sabre</span><span class="logo-i">American Airlines</span><span class="logo-i">ConocoPhillips</span><span class="logo-i">Academy Bank</span>
+  </div></div>
+</div>
+
+<!-- DOWNLOADS BAND -->
+<section class="dlband col fi">
+  <div class="dl-num">10k+</div>
+  <div class="dl-cap">downloads since launch</div>
+</section>
+
+<!-- COMMUNITY SLIDER -->
+<section class="section col fi">
+  <h2 class="sec-h2">What developers are building<br>with VectorAI DB</h2>
+  <div class="slider-wrap">
+    <button class="slide-btn slide-prev" id="sprev" aria-label="Previous"><i class="ti ti-chevron-left"></i></button>
+    <div class="slider-view"><div class="slider-track" id="strack">
+      <div class="sc-card">
+        <div class="sc-top"><span class="vdb-mark">V</span><i class="ti ti-brand-python" aria-hidden="true"></i><i class="ti ti-search" aria-hidden="true"></i></div>
+        <div class="sc-bottom"><div class="sc-name">Trace</div><div class="sc-desc">Semantic search for missing persons cases. Bridges the vocabulary gap between families and forensic records, fully on-device.</div><a class="sc-link" href="https://github.com/StephenSook/trace-forensic-search" target="_blank" rel="noopener">View project <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-top"><span class="vdb-mark">V</span><i class="ti ti-lock" aria-hidden="true"></i><i class="ti ti-terminal-2" aria-hidden="true"></i></div>
+        <div class="sc-bottom"><div class="sc-name">Revvec</div><div class="sc-desc">Air-gapped RAG pipeline for defense, aerospace, and pharma. Runs on a single Mac, no internet required.</div><a class="sc-link" href="https://github.com/yrevash/revvec" target="_blank" rel="noopener">View project <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-top"><span class="vdb-mark">V</span><i class="ti ti-microphone" aria-hidden="true"></i><i class="ti ti-camera" aria-hidden="true"></i></div>
+        <div class="sc-bottom"><div class="sc-name">FIX-FIRST</div><div class="sc-desc">Offline maintenance copilot for industrial technicians. Search manuals and incident history by error code, photo, or voice note.</div><a class="sc-link" href="https://github.com/Ridwannurudeen/fixfirst-edge" target="_blank" rel="noopener">View project <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-top"><i class="ti ti-link" aria-hidden="true"></i><span class="vdb-mark">V</span></div>
+        <div class="sc-bottom"><div class="sc-name">LangChain + VectorAI DB</div><div class="sc-desc">Agent memory that persists across sessions without cloud dependencies.</div><a class="sc-link" href="https://actian.com/blog/vectorai-db-langchain-agent-memory" target="_blank" rel="noopener">Read the guide <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-top"><i class="ti ti-topology-star-3" aria-hidden="true"></i><span class="vdb-mark">V</span></div>
+        <div class="sc-bottom"><div class="sc-name">LangGraph + VectorAI DB</div><div class="sc-desc">Agent state that survives disconnected environments.</div><a class="sc-link" href="https://actian.com/blog/vectorai-db-langgraph-agent-state" target="_blank" rel="noopener">Read the guide <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-top"><i class="ti ti-users-group" aria-hidden="true"></i><span class="vdb-mark">V</span></div>
+        <div class="sc-bottom"><div class="sc-name">CrewAI + VectorAI DB</div><div class="sc-desc">Isolated, persistent memory for every agent in a multi-agent crew.</div><a class="sc-link" href="https://actian.com/blog/vectorai-db-crewai-multi-agent-memory" target="_blank" rel="noopener">Read the guide <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-top"><i class="ti ti-file-stack" aria-hidden="true"></i><span class="vdb-mark">V</span></div>
+        <div class="sc-bottom"><div class="sc-name">LlamaIndex + VectorAI DB</div><div class="sc-desc">Local RAG pipeline with no cloud vector service. Runs on-premises or at the edge.</div><a class="sc-link" href="https://actian.com/blog/vectorai-db-llamaindex-local-rag" target="_blank" rel="noopener">Read the guide <i class="ti ti-arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+    </div></div>
+    <button class="slide-btn slide-next" id="snext" aria-label="Next"><i class="ti ti-chevron-right"></i></button>
+  </div>
+  <div class="slider-dots" id="sdots"></div>
+  <a class="sc-more" href="#">See all community builds &rarr;</a>
+</section>
+<!-- PROBLEMS -->
+<section class="problems section col fi">
+  <h2 class="sec-h2">Most vector databases were built for<br>human query patterns. AI agents are different.</h2>
+  <div class="prob-grid">
+    <div class="prob-card">
+      <div class="prob-copy">
+        <i class="ti ti-bolt prob-icn" aria-hidden="true"></i>
+        <div class="prob-title">Cloud latency breaks agent reasoning loops</div>
+        <div class="prob-body">Agents query their memory on every reasoning step. Cloud round-trips add 200-400ms per call, enough to breach a multi-step chain's latency budget before the LLM processes a single token.</div>
+      </div>
+      <div class="prob-viz">
+        <div class="chain">
+          <div class="chain-packet" id="chainpacket"></div>
+          <div class="chain-step"></div>
+          <div class="chain-link stretch"><span class="chain-lat">+340ms</span></div>
+          <div class="chain-step"></div>
+          <div class="chain-link"></div>
+          <div class="chain-step"></div>
+          <div class="chain-link stretch"><span class="chain-lat">+280ms</span></div>
+          <div class="chain-step"></div>
+          <div class="chain-link"></div>
+          <div class="chain-step"></div>
+          <div class="chain-link stretch"><span class="chain-lat">+390ms</span></div>
+          <div class="chain-step"></div>
+        </div>
+        <div class="chain-cap">six-step reasoning chain &middot; 500ms budget</div>
+      </div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-copy">
+        <i class="ti ti-shield-lock prob-icn" aria-hidden="true"></i>
+        <div class="prob-title">Regulated deployments require architectural compliance</div>
+        <div class="prob-body">In regulated environments, legal agreements with cloud vendors are structurally insufficient. Agent memory must stay on infrastructure you control.</div>
+      </div>
+      <div class="prob-viz">
+        <div class="perim">
+          <svg viewBox="0 0 260 160" id="perimsvg" aria-label="Data blocked at infrastructure perimeter">
+            <!-- outer boundary: your infrastructure -->
+            <rect x="14" y="20" width="170" height="120" rx="12" fill="none" stroke="rgba(79,209,224,.55)" stroke-width="1.4" stroke-dasharray="5 4"/>
+            <text x="20" y="14" class="p-lbl">your infrastructure</text>
+            <!-- middle ring: vectorai db -->
+            <rect x="48" y="42" width="102" height="76" rx="10" fill="rgba(79,209,224,.08)" stroke="rgba(79,209,224,.8)" stroke-width="1.4"/>
+            <!-- inner ring: your data -->
+            <rect x="76" y="60" width="46" height="40" rx="8" fill="rgba(255,255,255,.08)" stroke="#4FD1E0" stroke-width="1.8"/>
+            <rect x="94" y="78" width="10" height="8" rx="1.5" fill="none" stroke="#4FD1E0" stroke-width="1.7"/><path d="M96 78v-2a3 3 0 016 0v2" fill="none" stroke="#4FD1E0" stroke-width="1.7"/>
+            <!-- blocked cloud outside -->
+            <path d="M212 56a6 6 0 0111 -3 5 5 0 012 9h-11a4 4 0 01-2 -6z" fill="none" stroke="#8194A8" stroke-width="1.6"/>
+            <circle cx="222" cy="80" r="6" fill="none" stroke="#EF4444" stroke-width="1.2"/><path d="M219 77l6 6M225 77l-6 6" stroke="#EF4444" stroke-width="1.2"/>
+            <!-- travelling ball: starts outside, moves inward, stops at outer boundary -->
+            <circle id="permball" r="4" fill="#1A73E8" cx="222" cy="70"/>
+            <!-- impact flash at boundary -->
+            <circle id="permflash" r="0" fill="none" stroke="#EF4444" stroke-width="1.5" cx="184" cy="80" opacity="0"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-copy">
+        <i class="ti ti-wifi-off prob-icn" aria-hidden="true"></i>
+        <div class="prob-title">Cloud-only architecture leaves entire deployments unbuilt</div>
+        <div class="prob-body">Factory floors, hospital networks, and disconnected field devices require data on local hardware. Cloud-first databases have no answer for those constraints.</div>
+      </div>
+      <div class="prob-viz">
+        <div class="statpanel">
+          <div class="st-hdr"><span>Deployment status</span><span class="st-live">&#9679; live</span></div>
+          <div class="st-row"><div class="st-dot r"></div>Cloud vector DB<span class="st-val fail">&#10007; No connection</span></div>
+          <div class="st-row"><div class="st-dot t"></div>VectorAI DB<span class="st-val ok-t">&#10003; Running &middot; offline</span></div>
+          <div class="st-row"><div class="st-dot g"></div>Agent queries<span class="st-val ok-g">&#10003; 13ms p99</span></div>
+          <div class="st-counter"><span id="qcounter">47,382</span><span>queries served</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats section col fi" id="statsec">
+  <h2 class="sec-h2">Numbers that hold up under load</h2>
+  <div class="stats-grid">
+    <div class="stat b">
+      <div class="stat-lbl">Throughput</div>
+      <div class="stat-num" id="n1">0</div>
+      <div class="stat-desc">Agent fleets generate concurrent queries at a scale no human-facing application reaches. VectorAI DB is built to sustain that load.</div>
+    </div>
+    <div class="stat t">
+      <div class="stat-lbl">Recall accuracy</div>
+      <div class="stat-num" id="n2">0%</div>
+      <div class="stat-desc">Retrieval accuracy holds as your agent's memory grows, at production volume, weeks into a live deployment.</div>
+      <div class="recall-viz">
+        <div class="recall-dots" id="rdots"></div>
+        <div class="recall-cap">11 of 12 true neighbours returned</div>
+      </div>
+    </div>
+    <div class="stat a">
+      <div class="stat-lbl">Latency p99</div>
+      <div class="stat-num" id="n3">0ms</div>
+      <div class="stat-desc">13ms p99 at 99% recall, measured on self-hosted hardware, where your agents actually run.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits section col fi">
+  <h2 class="sec-h2">What you get</h2>
+  <div class="ben-grid">
+    <div class="ben-card tint">
+      <div class="ben-ill"><svg viewBox="0 0 80 80" fill="none"><rect x="14" y="52" width="52" height="9" rx="2" stroke="#6B7280" stroke-width="2"/><rect x="14" y="38" width="52" height="9" rx="2" stroke="#6B7280" stroke-width="2"/><rect x="14" y="24" width="52" height="9" rx="2" class="hl" stroke="#0B8A99" stroke-width="2" fill="rgba(51,167,181,.12)"/><path d="M40 18v-8m0 0l-4 4m4-4l4 4" stroke="#1A73E8" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <span class="ben-num">01</span>
+      <div class="ben-title">Memory that survives every session</div>
+      <div class="ben-body">Your agents recall context across sessions, and that memory scales with usage while staying inside your perimeter.</div>
+    </div>
+    <div class="ben-card tint">
+      <div class="ben-ill"><svg viewBox="0 0 80 80" fill="none"><path d="M12 58L26 44l12 8 16-20 14 10" stroke="#1A73E8" stroke-width="2" stroke-linecap="round"/><path d="M12 48l14-8 12 4 16-14 14 6" stroke="#0B8A99" stroke-width="2" stroke-linecap="round" opacity=".7"/><path d="M12 64h56" stroke="#E8EAED" stroke-width="1.5"/></svg></div>
+      <span class="ben-num">02</span>
+      <div class="ben-title">Monitor it from the tools you already run</div>
+      <div class="ben-body">Native Prometheus metrics stream into your Grafana dashboards. Latency, throughput, recall, and index health, right where you already look.</div>
+    </div>
+    <div class="ben-card">
+      <div class="ben-ill"><svg viewBox="0 0 80 80" fill="none"><path d="M14 24h36m0 0l-7-7m7 7l-7 7" stroke="#1A73E8" stroke-width="2" stroke-linecap="round"/><path d="M14 40h44m0 0l-7-7m7 7l-7 7" stroke="#2E8ED1" stroke-width="2" stroke-linecap="round"/><path d="M14 56h40m0 0l-7-7m7 7l-7 7" stroke="#0B8A99" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <span class="ben-num">03</span>
+      <div class="ben-title">Parallel queries without the slowdown</div>
+      <div class="ben-body">Reasoning steps, tool calls, and memory lookups fire at once. You keep full recall while they do.</div>
+    </div>
+    <div class="ben-card">
+      <div class="ben-ill"><svg viewBox="0 0 80 80" fill="none"><rect x="12" y="26" width="16" height="28" rx="3" stroke="#6B7280" stroke-width="2"/><rect x="34" y="20" width="28" height="16" rx="3" stroke="#0B8A99" stroke-width="2"/><rect x="38" y="42" width="20" height="20" rx="3" stroke="#1A73E8" stroke-width="2"/></svg></div>
+      <span class="ben-num">04</span>
+      <div class="ben-title">Ship the same build everywhere</div>
+      <div class="ben-body">Move from your laptop to a data center with zero rewrites. The same build runs on any hardware you target.</div>
+    </div>
+    <div class="ben-card">
+      <div class="ben-ill"><svg viewBox="0 0 80 80" fill="none"><rect x="16" y="16" width="48" height="48" rx="6" stroke="#0B8A99" stroke-width="2"/><path d="M30 40l7 7 14-14" stroke="#1A73E8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="ben-num">05</span>
+      <div class="ben-title">Pass review without re-architecting</div>
+      <div class="ben-body">GDPR, HIPAA, and data residency hold because of where the data sits, not because of a contract you had to negotiate.</div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="video section col fi">
+  <div>
+    <h2 class="sec-h2">Watch VectorAI DB run</h2>
+    <p class="sec-sub">Watch a full agent deployment from zero to first query.</p>
+    <span class="dur-pill">4:32</span>
+  </div>
+  <div class="vid-frame">
+    <div class="play-ring"><i class="ti ti-player-play" aria-label="Play video"></i></div>
+    <span class="vid-lbl">PRODUCTION DEMO &middot; 4:32</span>
+  </div>
+</section>
+<!-- GET STARTED -->
+<section class="getstarted fi">
+  <div class="gs-left">
+    <h2 class="sec-h2">Get started with<br>your framework</h2>
+    <p class="sec-sub" style="margin-bottom:2.25rem">Drop it into the stack you already work in.</p>
+    <button class="btn-lg btn-lg-primary" style="align-self:flex-start"><i class="ti ti-rocket" aria-hidden="true"></i>Start building free</button>
+  </div>
+  <div class="gs-right">
+    <div class="fw-logos">
+      <span class="fw-logo active" data-fw="LangChain"><i class="ti ti-link" aria-hidden="true"></i>LangChain</span>
+      <span class="fw-logo" data-fw="CrewAI"><i class="ti ti-users-group" aria-hidden="true"></i>CrewAI</span>
+      <span class="fw-logo" data-fw="LangGraph"><i class="ti ti-topology-star-3" aria-hidden="true"></i>LangGraph</span>
+      <span class="fw-logo" data-fw="LlamaIndex"><i class="ti ti-file-stack" aria-hidden="true"></i>LlamaIndex</span>
+      <span class="fw-logo" data-fw="Mastra"><i class="ti ti-route" aria-hidden="true"></i>Mastra</span>
+      <span class="fw-logo" data-fw="Python"><i class="ti ti-brand-python" aria-hidden="true"></i>Python</span>
+    </div>
+    <div class="tab-row" id="tabrow">
+      <button class="tab active" data-fw="LangChain">{LangChain}</button>
+      <button class="tab" data-fw="CrewAI">{CrewAI}</button>
+      <button class="tab" data-fw="LangGraph">{LangGraph}</button>
+      <button class="tab" data-fw="LlamaIndex">{LlamaIndex}</button>
+      <button class="tab" data-fw="Mastra">{Mastra}</button>
+      <button class="tab" data-fw="Python">{Python}</button>
+    </div>
+    <div class="code-shell">
+      <div class="code-head"><span class="code-file" id="codefile">agent_memory.py</span><button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy" aria-hidden="true"></i>Copy</button></div>
+      <div class="code-body" id="codebody"></div>
+    </div>
+    <div class="gs-desc" id="gsdesc"></div>
+    <a class="gs-all" href="https://docs.vectoraidb.actian.com/integrations" target="_blank" rel="noopener">View all integrations &rarr;</a>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="compare section col fi">
+  <h2 class="sec-h2">How VectorAI DB compares</h2>
+  <p class="sec-sub">A side-by-side look at where each option runs and what it exposes.</p>
+  <table class="cmp-table" id="cmptable">
+    <thead><tr><th>Feature</th><th class="vdb">VectorAI DB</th><th>Pinecone</th><th>Qdrant</th><th>Weaviate</th></tr></thead>
+    <tbody>
+      <tr class="cmp-row"><td class="feat">Runs on-premises and air-gapped</td><td class="vdb"><span class="cmp-check"><i class="ti ti-check"></i>Yes</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td></tr>
+      <tr class="cmp-row"><td class="feat">Agent-native deployment (edge, embedded, disconnected)</td><td class="vdb"><span class="cmp-check"><i class="ti ti-check"></i>Yes</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td></tr>
+      <tr class="cmp-row"><td class="feat">Native Prometheus / Grafana observability</td><td class="vdb"><span class="cmp-check"><i class="ti ti-check"></i>Yes</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td></tr>
+      <tr class="cmp-row"><td class="feat">Compliance by architecture (no cloud data processing)</td><td class="vdb"><span class="cmp-check"><i class="ti ti-check"></i>Yes</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td></tr>
+      <tr class="cmp-row"><td class="feat">Free tier</td><td class="vdb"><span class="cmp-check"><i class="ti ti-check"></i>Yes</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td><td><span class="cmp-x">X</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PERSONAS -->
+<section class="personas section col fi">
+  <h2 class="sec-h2">Who builds on VectorAI DB</h2>
+  <p class="sec-sub">Teams shipping where the data lives and the network can not always reach.</p>
+  <div class="per-grid">
+    <div class="per-card">
+      <div class="per-ill"><svg viewBox="0 0 160 75" fill="none"><rect x="55" y="18" width="50" height="38" rx="4" stroke="#4FD1E0" stroke-width="1.7"/><rect x="63" y="26" width="14" height="10" rx="1.5" stroke="#4FD1E0" stroke-width="1.5" opacity=".6"/><rect x="83" y="26" width="14" height="10" rx="1.5" stroke="#4FD1E0" stroke-width="1.5" opacity=".6"/><circle cx="80" cy="47" r="2.5" fill="#4FD1E0"><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle></svg></div>
+      <span class="per-tag">{edge}</span>
+      <i class="ti ti-cpu per-icn" aria-hidden="true"></i>
+      <div class="per-title">Edge AI engineers</div>
+      <div class="per-body">Inference and memory on the same hardware. Runs natively on NVIDIA Jetson, Raspberry Pi, and industrial edge servers.</div>
+      <div class="per-deploy">&rarr; Jetson &middot; RPi &middot; Edge servers</div>
+    </div>
+    <div class="per-card">
+      <div class="per-ill"><svg viewBox="0 0 160 75" fill="none"><rect x="22" y="20" width="20" height="16" rx="2" stroke="#8194A8" stroke-width="1.6"/><rect x="50" y="20" width="20" height="16" rx="2" stroke="#8194A8" stroke-width="1.6"/><rect x="92" y="20" width="20" height="16" rx="2" stroke="#8194A8" stroke-width="1.6"/><rect x="120" y="20" width="20" height="16" rx="2" stroke="#8194A8" stroke-width="1.6"/><circle cx="80" cy="52" r="7" stroke="#4FD1E0" stroke-width="1.8"><animate attributeName="opacity" values="1;.5;1" dur="2.5s" repeatCount="indefinite"/></circle><path d="M32 36v8h41M60 36v6h13M102 36v6H87M130 36v8H87" stroke="#8194A8" stroke-width="1.4"/></svg></div>
+      <span class="per-tag">{air-gapped}</span>
+      <i class="ti ti-building-factory per-icn" aria-hidden="true"></i>
+      <div class="per-title">Manufacturing teams</div>
+      <div class="per-body">Serves queries during network outages and syncs to the data center when connectivity returns.</div>
+      <div class="per-deploy">&rarr; Air-gapped &middot; Plant floors &middot; Production lines</div>
+    </div>
+    <div class="per-card">
+      <div class="per-ill"><svg viewBox="0 0 160 75" fill="none"><path d="M55 18h14v14h22V18h14v40H91V44H69v14H55V18z" stroke="#4FD1E0" stroke-width="1.7" stroke-linejoin="round"/><circle cx="80" cy="35" r="5" stroke="#4FD1E0" stroke-width="1.7"/><path d="M80 32.5v2.5l1.6 1.6" stroke="#4FD1E0" stroke-width="1.5"/></svg></div>
+      <span class="per-tag">{hipaa}</span>
+      <i class="ti ti-heart-rate-monitor per-icn" aria-hidden="true"></i>
+      <div class="per-title">Healthcare organizations</div>
+      <div class="per-body">Patient data stays inside your perimeter throughout every query.</div>
+      <div class="per-deploy">&rarr; Hospital DCs &middot; Clinic servers &middot; Research</div>
+    </div>
+    <div class="per-card">
+      <div class="per-ill"><svg viewBox="0 0 160 75" fill="none"><circle cx="80" cy="38" r="8" stroke="#4FD1E0" stroke-width="1.7"/><circle cx="32" cy="20" r="4" stroke="#8194A8" stroke-width="1.6"/><circle cx="128" cy="20" r="4" stroke="#8194A8" stroke-width="1.6"/><circle cx="80" cy="64" r="4" stroke="#8194A8" stroke-width="1.6"/><path d="M36 23l36 11M124 23L88 34M80 56v-10" stroke="#8194A8" stroke-width="1.4"/><circle r="1.8" fill="#4FD1E0"><animateMotion dur="2.4s" repeatCount="indefinite" path="M36 23L72 34"/></circle></svg></div>
+      <span class="per-tag">{hybrid}</span>
+      <i class="ti ti-topology-ring per-icn" aria-hidden="true"></i>
+      <div class="per-title">Platform engineers</div>
+      <div class="per-body">Consistent across hybrid, edge, and multi-site infrastructure regardless of connectivity, compliance, or hardware constraints.</div>
+      <div class="per-deploy">&rarr; Hybrid &middot; Edge + cloud &middot; Multi-site</div>
+    </div>
+  </div>
+</section>
+<!-- FAQ -->
+<section class="faq section col fi">
+  <div class="faq-inner">
+    <div style="text-align:center;margin-bottom:3.5rem">
+      <h2 class="sec-h2" style="font-size:36px">Common questions</h2>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is VectorAI DB? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>Actian VectorAI DB is a vector database built for AI agents, giving them persistent memory and low-latency retrieval on infrastructure you own.</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How is VectorAI DB different from Pinecone, Qdrant, and Weaviate? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>Most vector databases were designed for cloud-native deployments and human-scale query patterns. VectorAI DB is built for the concurrent, high-frequency behavior of agent fleets and runs consistently across edge, on-premises, air-gapped, and cloud environments without architecture changes. Pinecone is cloud-only. Qdrant and Weaviate support self-hosted deployment but are designed primarily for cloud-scale workloads, not edge and disconnected environments.</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What agent frameworks does VectorAI DB support? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>VectorAI DB integrates natively with LangChain, LangGraph, CrewAI, LlamaIndex, and Mastra. Full integration docs are at docs.vectoraidb.actian.com/integrations.</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How does VectorAI DB handle concurrent queries from a fleet of agents? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>VectorAI DB sustains 1k QPS at 10M vectors with 99% recall, measured under concurrent agent workloads on self-hosted hardware. It is built for the parallel, high-frequency query behavior that agent fleets generate, not for the sequential patterns of human-facing applications.</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What does the free tier include? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>[Free tier details pending product team confirmation: vector limit, query limit, included features.]</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What indexing algorithms does VectorAI DB support? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>VectorAI DB supports HNSW and other ANN indexing methods for low-latency, high-accuracy search at scale.</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What embedding models does VectorAI DB support? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>VectorAI DB is model-agnostic and works with embeddings from any provider: OpenAI, Anthropic, Cohere, Hugging Face, or any custom model you bring.</p></div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does VectorAI DB support multi-modal embeddings? <i class="ti ti-chevron-down" aria-hidden="true"></i></div><div class="faq-a"><p>Yes. VectorAI DB stores vector embeddings from text, images, audio, and video.</p></div></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final col fi">
+  <div class="final-glow"></div>
+  <h2 class="final-h2">Deploy AI agents with persistent memory.<br>Ship them anywhere.</h2>
+  <p class="final-sub">No credit card required. From install to your first query in under five minutes.</p>
+  <div class="final-actions">
+    <button class="btn-lg btn-lg-primary"><i class="ti ti-rocket" aria-hidden="true"></i>Start building free</button>
+    <button class="btn-lg btn-lg-ghost"><i class="ti ti-calendar" aria-hidden="true"></i>Get a demo</button>
+  </div>
+</section>
+
+<!-- FREE TIER -->
+<section class="freetier section col fi">
+  <h2 class="sec-h2">Start free, no billing setup</h2>
+  <p class="sec-sub">Everything you need to prototype agent memory on your own machine, today.</p>
+  <div class="ft-grid">
+    <div class="ft-card">
+      <div class="ft-icn"><i class="ti ti-credit-card-off" aria-hidden="true"></i></div>
+      <div class="ft-title">Billing-free access</div>
+      <div class="ft-desc">Download and start using VectorAI DB immediately. No billing setup required.</div>
+    </div>
+    <div class="ft-card">
+      <div class="ft-icn"><i class="ti ti-binary-tree" aria-hidden="true"></i></div>
+      <div class="ft-title">Vector indexing and search</div>
+      <div class="ft-desc">ANN indexing (HNSW), vector search APIs, and monitoring to support prototypes up to 5,000 vector embeddings.</div>
+    </div>
+    <div class="ft-card">
+      <div class="ft-icn"><i class="ti ti-rocket" aria-hidden="true"></i></div>
+      <div class="ft-title">Fast local setup</div>
+      <div class="ft-desc">Install, index data, and run queries in minutes with clear docs, quickstarts, and code samples.</div>
+    </div>
+  </div>
+  <div class="ft-community">
+    <div class="ft-comm-icn"><i class="ti ti-brand-discord" aria-hidden="true"></i></div>
+    <div class="ft-comm-text">
+      <div class="ft-comm-title">Developer community</div>
+      <div class="ft-comm-desc">Join our Discord to ask questions, share projects, and get help from other builders.</div>
+    </div>
+    <a class="btn-lg btn-lg-primary ft-comm-btn" href="https://discord.com/invite/432A2M63Py" target="_blank" rel="noopener"><i class="ti ti-brand-discord" aria-hidden="true"></i>Join the Discord</a>
+  </div>
+</section>
+
+<!-- BLOG HIGHLIGHTS -->
+<section class="blog section col fi">
+  <h2 class="sec-h2">From the engineering blog</h2>
+  <p class="sec-sub">Deep technical writing on agent memory, retrieval, and running vector search off the cloud.</p>
+  <div class="blog-grid">
+    <article class="blog-card">
+      <div class="blog-top"><span class="blog-tag">AI LATENCY</span><i class="ti ti-bolt blog-glyph" aria-hidden="true"></i></div>
+      <div class="blog-body">
+        <div class="blog-title">Why cloud round-trips break agent reasoning loops</div>
+        <div class="blog-ex">A breakdown of where the 200-400ms goes on every memory call, and what that does to a six-step chain.</div>
+        <a class="blog-read" href="#">Read the post <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </article>
+    <article class="blog-card">
+      <div class="blog-top"><span class="blog-tag">OFFLINE-FIRST</span><i class="ti ti-wifi-off blog-glyph" aria-hidden="true"></i></div>
+      <div class="blog-body">
+        <div class="blog-title">Running retrieval-augmented agents with zero connectivity</div>
+        <div class="blog-ex">How to build a RAG pipeline that serves queries through a full network outage and syncs on reconnect.</div>
+        <a class="blog-read" href="#">Read the post <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </article>
+    <article class="blog-card">
+      <div class="blog-top"><span class="blog-tag">EDGE COMPUTING</span><i class="ti ti-cpu blog-glyph" aria-hidden="true"></i></div>
+      <div class="blog-body">
+        <div class="blog-title">Vector search on a Jetson: 13ms at the edge</div>
+        <div class="blog-ex">Benchmarks and tuning notes for running HNSW retrieval on NVIDIA Jetson and Raspberry Pi hardware.</div>
+        <a class="blog-read" href="#">Read the post <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="col">
+  <div class="f-logo">VectorAI DB by Actian</div>
+  <ul class="f-links"><li><a href="#">Docs</a></li><li><a href="#">Pricing</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Contact</a></li></ul>
+</footer>
+<script>
+// ── NAV SCROLL ──
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+// ── COPY HELPERS ──
+function copyText(btn,txt){navigator.clipboard.writeText(txt).then(()=>{btn.innerHTML='<i class="ti ti-check"></i>Copied';setTimeout(()=>btn.innerHTML='<i class="ti ti-copy"></i>Copy',1800)})}
+function copyCode(btn){copyText(btn,currentSnippet.plain)}
+
+// ── VECTOR SPACE VISUALISATION ──
+const svgNS='http://www.w3.org/2000/svg';
+const vs=document.getElementById('vspace');
+const readout=document.getElementById('vreadout');
+let W=0,H=0,dots=[],clusterCenters=[];
+function buildSpace(){
+  vs.innerHTML='';dots=[];
+  const defs=document.createElementNS(svgNS,'defs');
+  defs.innerHTML='<filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  vs.appendChild(defs);
+  const r=vs.getBoundingClientRect();W=r.width;H=r.height;
+  vs.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const clusters=[
+    {cx:W*.3,cy:H*.30,c:'#33A7B5',label:'session memory'},
+    {cx:W*.70,cy:H*.46,c:'#1A73E8',label:'tool calls'},
+    {cx:W*.40,cy:H*.74,c:'#7E94AA',label:'doc context'}
+  ];
+  // faint cluster labels
+  clusterCenters=clusters;
+  clusters.forEach(cl=>{
+    const t=document.createElementNS(svgNS,'text');
+    t.setAttribute('x',cl.cx);t.setAttribute('y',cl.cy-Math.min(W,H)*.20);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family','Source Code Pro,monospace');
+    t.setAttribute('font-size','10');t.setAttribute('fill',cl.c);
+    t.setAttribute('opacity','.6');t.setAttribute('font-weight','500');t.textContent=cl.label;
+    vs.appendChild(t);
+  });
+  for(let i=0;i<40;i++){
+    const cl=clusters[i%3];
+    const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.18;
+    const x=Math.max(20,Math.min(W-20,cl.cx+Math.cos(a)*d));
+    const y=Math.max(20,Math.min(H-20,cl.cy+Math.sin(a)*d));
+    const c=document.createElementNS(svgNS,'circle');
+    c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',3.5);
+    c.setAttribute('fill',cl.c);c.setAttribute('opacity',.55+Math.random()*.4);
+    vs.appendChild(c);dots.push({el:c,x,y,base:+c.getAttribute('opacity'),cluster:i%3});
+  }
+}
+let queryEls=[];
+function clearQuery(){queryEls.forEach(e=>e.remove());queryEls=[];dots.forEach(d=>{d.el.setAttribute('opacity',d.base);d.el.removeAttribute('filter')})}
+function runQuery(){
+  clearQuery();readout.classList.remove('show');
+  if(!W)return;
+  // pick a target cluster - query resolves to one meaning neighbourhood
+  const tc=clusterCenters[Math.floor(Math.random()*clusterCenters.length)];
+  const off=Math.min(W,H)*.12;
+  const qx=Math.max(40,Math.min(W-40,tc.cx+(Math.random()-.5)*off*2));
+  const qy=Math.max(40,Math.min(H-40,tc.cy+(Math.random()-.5)*off*2));
+  // query dot
+  const q=document.createElementNS(svgNS,'circle');
+  q.setAttribute('cx',qx);q.setAttribute('cy',qy);q.setAttribute('r',7);q.setAttribute('fill','#0A0E14');q.setAttribute('filter','url(#glow)');
+  vs.appendChild(q);queryEls.push(q);
+  // pulse ring
+  const p=document.createElementNS(svgNS,'circle');
+  p.setAttribute('cx',qx);p.setAttribute('cy',qy);p.setAttribute('r',6);p.setAttribute('fill','none');p.setAttribute('stroke','#111318');p.setAttribute('stroke-width','1');
+  const a1=document.createElementNS(svgNS,'animate');a1.setAttribute('attributeName','r');a1.setAttribute('from','6');a1.setAttribute('to','30');a1.setAttribute('dur','.6s');a1.setAttribute('fill','freeze');
+  const a2=document.createElementNS(svgNS,'animate');a2.setAttribute('attributeName','opacity');a2.setAttribute('from','1');a2.setAttribute('to','0');a2.setAttribute('dur','.6s');a2.setAttribute('fill','freeze');
+  p.appendChild(a1);p.appendChild(a2);vs.appendChild(p);queryEls.push(p);
+  // radius circle
+  const R=Math.min(W,H)*.3;
+  const rad=document.createElementNS(svgNS,'circle');
+  rad.setAttribute('cx',qx);rad.setAttribute('cy',qy);rad.setAttribute('r','0');rad.setAttribute('fill','none');
+  rad.setAttribute('stroke','rgba(51,167,181,.45)');rad.setAttribute('stroke-dasharray','4 4');
+  const a3=document.createElementNS(svgNS,'animate');a3.setAttribute('attributeName','r');a3.setAttribute('from','0');a3.setAttribute('to',R);a3.setAttribute('dur','.4s');a3.setAttribute('fill','freeze');
+  rad.appendChild(a3);vs.appendChild(rad);queryEls.push(rad);
+  // find nearest
+  const near=dots.map(d=>({d,dist:Math.hypot(d.x-qx,d.y-qy)})).filter(o=>o.dist<R).sort((a,b)=>a.dist-b.dist);
+  near.forEach((o,i)=>{setTimeout(()=>{o.d.el.setAttribute('fill','#1A73E8');o.d.el.setAttribute('opacity','1');o.d.el.setAttribute('r','5.5');o.d.el.setAttribute('filter','url(#glow)')},400+i*40)});
+  // lines to top 5
+  near.slice(0,5).forEach((o,i)=>{setTimeout(()=>{
+    const l=document.createElementNS(svgNS,'line');
+    l.setAttribute('x1',qx);l.setAttribute('y1',qy);l.setAttribute('x2',o.d.x);l.setAttribute('y2',o.d.y);
+    l.setAttribute('stroke','rgba(26,115,232,.25)');l.setAttribute('stroke-width','1');
+    vs.insertBefore(l,vs.firstChild);queryEls.push(l);
+  },420+i*40)});
+  setTimeout(()=>readout.classList.add('show'),800);
+  setTimeout(()=>{dots.forEach(d=>{d.el.setAttribute('r','3.5')});},3600);
+}
+buildSpace();runQuery();
+setInterval(runQuery,4000);
+addEventListener('resize',()=>{buildSpace()});
+
+// ── SLIDER ──
+const track=document.getElementById('strack');
+const cards=track.children.length;
+let perView=innerWidth<768?1:innerWidth<1024?2:3;
+let idx=0;
+const prev=document.getElementById('sprev'),next=document.getElementById('snext'),dotsEl=document.getElementById('sdots');
+function maxIdx(){return Math.max(0,cards-perView)}
+function renderDots(){dotsEl.innerHTML='';for(let i=0;i<=maxIdx();i++){const b=document.createElement('button');b.className='sdot'+(i===idx?' active':'');b.setAttribute('aria-label','Go to slide '+(i+1));b.onclick=()=>{idx=i;updateSlider()};dotsEl.appendChild(b)}}
+function updateSlider(){
+  const gap=20,cw=(track.parentElement.offsetWidth-gap*(perView-1))/perView;
+  track.style.transform=`translateX(-${idx*(cw+gap)}px)`;
+  prev.disabled=idx===0;next.disabled=idx>=maxIdx();
+  renderDots();
+}
+prev.onclick=()=>{if(idx>0){idx--;updateSlider()}};
+next.onclick=()=>{if(idx<maxIdx()){idx++;updateSlider()}};
+addEventListener('resize',()=>{perView=innerWidth<768?1:innerWidth<1024?2:3;idx=Math.min(idx,maxIdx());updateSlider()});
+updateSlider();
+
+
+
+// ── LATENCY CHAIN PACKET: travels the chain, slowed by stretched links ──
+(function(){
+  const packet=document.getElementById('chainpacket');
+  const chain=packet?packet.closest('.chain'):null;
+  if(!chain)return;
+  const steps=[...chain.querySelectorAll('.chain-step')];
+  const links=[...chain.querySelectorAll('.chain-link')];
+  function travel(){
+    steps.forEach(s=>s.classList.remove('lit'));
+    packet.style.opacity='1';
+    let i=0;
+    function toStep(){
+      if(i>=steps.length){
+        packet.style.opacity='0';
+        setTimeout(travel,1400);
+        return;
+      }
+      const step=steps[i];
+      const px=step.offsetLeft+step.offsetWidth/2-4;
+      // stretched links take longer (latency made visible)
+      const slow=i>0&&links[i-1]&&links[i-1].classList.contains('stretch');
+      packet.style.transition='left '+(slow?'.7s':'.28s')+' '+(slow?'ease-in-out':'linear');
+      packet.style.left=px+'px';
+      step.classList.add('lit');
+      setTimeout(()=>{i++;toStep();},slow?720:300);
+    }
+    toStep();
+  }
+  const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){travel();cObs.disconnect();}})},{threshold:.3});
+  cObs.observe(chain.closest('.prob-card'));
+})();
+
+// ── PERIMETER BALL: travels inward, blocked at boundary ──
+(function(){
+  const ball=document.getElementById('permball');
+  const flash=document.getElementById('permflash');
+  if(!ball)return;
+  // path waypoints from cloud (outside) toward centre, STOPPING at outer boundary (x=184)
+  // ball approaches but is repelled at the perimeter
+  function cycle(){
+    // reset
+    ball.setAttribute('cx',222);ball.setAttribute('cy',70);ball.setAttribute('r',4);
+    ball.setAttribute('opacity',1);ball.setAttribute('fill','#1A73E8');
+    flash.setAttribute('opacity',0);flash.setAttribute('r',0);
+    let t=0;
+    const dur=1400;
+    const startX=222,boundaryX=190,startY=70,boundaryY=80;
+    const t0=performance.now();
+    function step(now){
+      t=(now-t0)/dur;
+      if(t<1){
+        const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; // ease in-out
+        const x=startX+(boundaryX-startX)*e;
+        const y=startY+(boundaryY-startY)*e;
+        ball.setAttribute('cx',x);ball.setAttribute('cy',y);
+        // grow slightly as it nears boundary
+        ball.setAttribute('r',4+e*1.5);
+        requestAnimationFrame(step);
+      }else{
+        // impact: ball stops, flash expands red, ball recoils and fades
+        flash.setAttribute('cx',190);flash.setAttribute('cy',80);
+        flash.setAttribute('opacity',1);
+        let ft=0;const f0=performance.now();
+        function flashStep(fn){
+          ft=(fn-f0)/500;
+          if(ft<1){
+            flash.setAttribute('r',ft*18);
+            flash.setAttribute('opacity',1-ft);
+            ball.setAttribute('fill','#EF4444');
+            ball.setAttribute('cx',190-ft*8); // recoil
+            ball.setAttribute('opacity',1-ft*.6);
+            requestAnimationFrame(flashStep);
+          }else{
+            ball.setAttribute('opacity',0);
+            setTimeout(cycle,900);
+          }
+        }
+        requestAnimationFrame(flashStep);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  // only animate when scrolled into view
+  const pObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){cycle();pObs.disconnect();}})},{threshold:.3});
+  pObs.observe(ball.closest('.prob-card'));
+})();
+
+// ── QUERY COUNTER ──
+let qc=47382;
+setInterval(()=>{qc+=3+Math.floor(Math.random()*5);document.getElementById('qcounter').textContent=qc.toLocaleString()},200);
+
+// ── STAT COUNTERS + RECALL DOTS ──
+function countUp(id,end,fmt,dur){const el=document.getElementById(id),t0=performance.now();const run=n=>{const p=Math.min((n-t0)/dur,1),v=Math.round(end*(1-Math.pow(1-p,3)));el.textContent=fmt(v);if(p<1)requestAnimationFrame(run)};requestAnimationFrame(run)}
+const rd=document.getElementById('rdots');
+for(let i=0;i<12;i++){const d=document.createElement('div');d.className='rdot';rd.appendChild(d)}
+function fireRecall(){[...rd.children].forEach((d,i)=>{if(i<11)setTimeout(()=>d.classList.add('hit'),200+i*30);else setTimeout(()=>d.classList.add('miss'),200+11*30)})}
+
+// ── FRAMEWORK TABS ──
+const SN={
+LangChain:{file:'agent_memory.py',desc:'Use VectorAI DB as a persistent vector store in any LangChain retrieval chain or agent memory module.',
+html:`<span class="cl"><span class="cc"># Install</span></span><span class="cl"><span class="ck">pip</span> install vectoraidb-client langchain</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">from</span> vectoraidb <span class="ck">import</span> VectorAIClient</span><span class="cl"><span class="ck">from</span> langchain.memory <span class="ck">import</span> VectorStoreRetrieverMemory</span><span class="cl">&nbsp;</span><span class="cl">client = VectorAIClient(host=<span class="cs">"localhost:5433"</span>)</span><span class="cl">store = client.as_langchain_store(</span><span class="cl">&nbsp;&nbsp;collection=<span class="cs">"agent-memory"</span></span><span class="cl">)</span><span class="cl">&nbsp;</span><span class="cl">memory = VectorStoreRetrieverMemory(</span><span class="cl">&nbsp;&nbsp;retriever=store.as_retriever(top_k=<span class="cn">10</span>)</span><span class="cl">)</span><span class="cl">&nbsp;</span><span class="cl"><span class="cc"># 13ms p99 &middot; on your hardware</span></span>`,
+plain:'pip install vectoraidb-client langchain\n\nfrom vectoraidb import VectorAIClient\nfrom langchain.memory import VectorStoreRetrieverMemory\n\nclient = VectorAIClient(host="localhost:5433")\nstore = client.as_langchain_store(collection="agent-memory")\nmemory = VectorStoreRetrieverMemory(retriever=store.as_retriever(top_k=10))'},
+CrewAI:{file:'crew_memory.py',desc:'Give every agent in your CrewAI crew isolated memory backed by VectorAI DB.',
+html:`<span class="cl"><span class="cc"># Install</span></span><span class="cl"><span class="ck">pip</span> install vectoraidb-client crewai</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">from</span> vectoraidb <span class="ck">import</span> VectorAIClient</span><span class="cl"><span class="ck">from</span> crewai <span class="ck">import</span> Agent, Crew</span><span class="cl">&nbsp;</span><span class="cl">client = VectorAIClient(host=<span class="cs">"localhost:5433"</span>)</span><span class="cl">&nbsp;</span><span class="cl">researcher = Agent(</span><span class="cl">&nbsp;&nbsp;role=<span class="cs">"researcher"</span>,</span><span class="cl">&nbsp;&nbsp;memory=client.agent_memory(<span class="cs">"researcher"</span>)</span><span class="cl">)</span><span class="cl">&nbsp;</span><span class="cl"><span class="cc"># isolated memory per agent &middot; on your hardware</span></span>`,
+plain:'pip install vectoraidb-client crewai\n\nfrom vectoraidb import VectorAIClient\nfrom crewai import Agent, Crew\n\nclient = VectorAIClient(host="localhost:5433")\nresearcher = Agent(role="researcher", memory=client.agent_memory("researcher"))'},
+LangGraph:{file:'graph_state.py',desc:'Attach VectorAI DB to a LangGraph agent as a long-term memory node that persists across graph runs.',
+html:`<span class="cl"><span class="cc"># Install</span></span><span class="cl"><span class="ck">pip</span> install vectoraidb-client langgraph</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">from</span> vectoraidb <span class="ck">import</span> VectorAIClient</span><span class="cl"><span class="ck">from</span> langgraph.graph <span class="ck">import</span> StateGraph</span><span class="cl">&nbsp;</span><span class="cl">client = VectorAIClient(host=<span class="cs">"localhost:5433"</span>)</span><span class="cl">memory = client.graph_memory(<span class="cs">"agent-state"</span>)</span><span class="cl">&nbsp;</span><span class="cl">graph = StateGraph(state_schema=AgentState)</span><span class="cl">graph.add_node(<span class="cs">"recall"</span>, memory.recall_node)</span><span class="cl">graph.add_node(<span class="cs">"persist"</span>, memory.persist_node)</span><span class="cl">&nbsp;</span><span class="cl"><span class="cc"># state survives across runs &middot; no cloud dependency</span></span>`,
+plain:'pip install vectoraidb-client langgraph\n\nfrom vectoraidb import VectorAIClient\nfrom langgraph.graph import StateGraph\n\nclient = VectorAIClient(host="localhost:5433")\nmemory = client.graph_memory("agent-state")\ngraph = StateGraph(state_schema=AgentState)\ngraph.add_node("recall", memory.recall_node)\ngraph.add_node("persist", memory.persist_node)'},
+LlamaIndex:{file:'local_rag.py',desc:'Use VectorAI DB as the retrieval backend in any LlamaIndex pipeline, on-premises or at the edge.',
+html:`<span class="cl"><span class="cc"># Install</span></span><span class="cl"><span class="ck">pip</span> install vectoraidb-client llama-index</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">from</span> vectoraidb <span class="ck">import</span> VectorAIClient</span><span class="cl"><span class="ck">from</span> llama_index.core <span class="ck">import</span> VectorStoreIndex</span><span class="cl">&nbsp;</span><span class="cl">client = VectorAIClient(host=<span class="cs">"localhost:5433"</span>)</span><span class="cl">store = client.as_llamaindex_store(</span><span class="cl">&nbsp;&nbsp;collection=<span class="cs">"documents"</span></span><span class="cl">)</span><span class="cl">&nbsp;</span><span class="cl">index = VectorStoreIndex.from_vector_store(store)</span><span class="cl">engine = index.as_query_engine(top_k=<span class="cn">10</span>)</span><span class="cl">&nbsp;</span><span class="cl"><span class="cc"># local RAG &middot; no cloud vector service</span></span>`,
+plain:'pip install vectoraidb-client llama-index\n\nfrom vectoraidb import VectorAIClient\nfrom llama_index.core import VectorStoreIndex\n\nclient = VectorAIClient(host="localhost:5433")\nstore = client.as_llamaindex_store(collection="documents")\nindex = VectorStoreIndex.from_vector_store(store)\nengine = index.as_query_engine(top_k=10)'},
+Mastra:{file:'workflow.ts',desc:'Connect VectorAI DB to Mastra workflows for agent memory that runs on your own infrastructure.',
+html:`<span class="cl"><span class="cc">// Install</span></span><span class="cl"><span class="ck">npm</span> install @vectoraidb/client @mastra/core</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">import</span> { VectorAIClient } <span class="ck">from</span> <span class="cs">"@vectoraidb/client"</span>;</span><span class="cl"><span class="ck">import</span> { Mastra } <span class="ck">from</span> <span class="cs">"@mastra/core"</span>;</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">const</span> client = <span class="ck">new</span> VectorAIClient({</span><span class="cl">&nbsp;&nbsp;host: <span class="cs">"localhost:5433"</span></span><span class="cl">});</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">const</span> mastra = <span class="ck">new</span> Mastra({</span><span class="cl">&nbsp;&nbsp;memory: client.memoryProvider(<span class="cs">"workflows"</span>)</span><span class="cl">});</span><span class="cl">&nbsp;</span><span class="cl"><span class="cc">// agent memory on your own infrastructure</span></span>`,
+plain:'npm install @vectoraidb/client @mastra/core\n\nimport { VectorAIClient } from "@vectoraidb/client";\nimport { Mastra } from "@mastra/core";\n\nconst client = new VectorAIClient({ host: "localhost:5433" });\nconst mastra = new Mastra({ memory: client.memoryProvider("workflows") });'},
+Python:{file:'quickstart.py',desc:'Use the VectorAI DB Python client directly for any custom agent stack.',
+html:`<span class="cl"><span class="cc"># Install</span></span><span class="cl"><span class="ck">pip</span> install vectoraidb-client</span><span class="cl">&nbsp;</span><span class="cl"><span class="ck">from</span> vectoraidb <span class="ck">import</span> VectorAIClient</span><span class="cl">&nbsp;</span><span class="cl">client = VectorAIClient(host=<span class="cs">"localhost:5433"</span>)</span><span class="cl">&nbsp;</span><span class="cl">results = client.query(</span><span class="cl">&nbsp;&nbsp;collection=<span class="cs">"agent-memory"</span>,</span><span class="cl">&nbsp;&nbsp;vector=embeddings,</span><span class="cl">&nbsp;&nbsp;top_k=<span class="cn">10</span></span><span class="cl">)</span><span class="cl">&nbsp;</span><span class="cl"><span class="cc"># 13ms p99 &middot; on your hardware</span></span>`,
+plain:'pip install vectoraidb-client\n\nfrom vectoraidb import VectorAIClient\n\nclient = VectorAIClient(host="localhost:5433")\nresults = client.query(collection="agent-memory", vector=embeddings, top_k=10)'}
+};
+let currentSnippet=SN.LangChain;
+const codeBody=document.getElementById('codebody'),codeFile=document.getElementById('codefile'),gsDesc=document.getElementById('gsdesc');
+function setFw(name){
+  currentSnippet=SN[name];
+  codeBody.classList.add('fading');
+  setTimeout(()=>{
+    codeBody.innerHTML=currentSnippet.html;
+    codeFile.textContent=currentSnippet.file;
+    gsDesc.textContent=currentSnippet.desc;
+    codeBody.classList.remove('fading');
+  },150);
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.fw===name));
+  document.querySelectorAll('.fw-logo').forEach(l=>l.classList.toggle('active',l.dataset.fw===name));
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setFw(t.dataset.fw));
+codeBody.innerHTML=SN.LangChain.html;gsDesc.textContent=SN.LangChain.desc;
+
+// ── FAQ ──
+function toggleFaq(item){const open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)item.classList.add('open')}
+
+// ── SCROLL OBSERVER ──
+const io=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('on');
+  if(e.target.id==='statsec'){
+    countUp('n1',1,v=>v+'k QPS',900);
+    setTimeout(()=>countUp('n2',99,v=>v+'%',900),100);
+    setTimeout(()=>countUp('n3',13,v=>v+'ms',900),200);
+    fireRecall();
+  }
+  if(e.target.querySelector('.cmp-row')){
+    e.target.querySelectorAll('.cmp-row').forEach((r,i)=>setTimeout(()=>r.classList.add('on'),i*50));
+  }
+  io.unobserve(e.target);
+})},{threshold:.1});
+document.querySelectorAll('.fi').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
