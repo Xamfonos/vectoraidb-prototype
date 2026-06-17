@@ -1,0 +1,9 @@
+/* Self-hosted fonts — extracted from the original inline base64 @font-face blocks. */
+@font-face{font-family:'Roobert';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/roobert-400.woff2') format('woff2')}
+@font-face{font-family:'Roobert';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/roobert-500.woff2') format('woff2')}
+@font-face{font-family:'Roobert';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/roobert-700.woff2') format('woff2')}
+@font-face{font-family:'Roobert';font-style:normal;font-weight:300;font-display:swap;src:url('/fonts/roobert-300-full.woff2') format('woff2')}
+@font-face{font-family:'Roobert';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/roobert-400-full.woff2') format('woff2')}
+@font-face{font-family:'Roobert';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/roobert-500-full.woff2') format('woff2')}
+@font-face{font-family:'Roobert';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/roobert-700-full.woff2') format('woff2')}
+@font-face{font-family:'tabler-icons';font-style:normal;font-weight:400;font-display:block;src:url('/fonts/tabler-icons.woff2') format('woff2')}
