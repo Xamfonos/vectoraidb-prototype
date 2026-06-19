@@ -73,6 +73,10 @@ nav.scrolled{border-bottom-color:var(--border)}
 .btn-s-ghost:hover{background:var(--surface);border-color:#c4c8cf}
 .btn-s-primary{font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 18px;border:none;border-radius:6px;background:var(--blue);color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 2px 8px rgba(60,145,255,.3)}
 .btn-s-primary:hover{background:#0F5FDC}
+/* attention pulse on the primary download CTA */
+.nav-dl{animation:dlpulse 2.6s ease-out infinite}
+.nav-dl:hover{animation:none}
+@keyframes dlpulse{0%{box-shadow:0 2px 8px rgba(60,145,255,.35),0 0 0 0 rgba(60,145,255,.5)}30%{box-shadow:0 2px 8px rgba(60,145,255,.35),0 0 0 9px rgba(60,145,255,0)}100%{box-shadow:0 2px 8px rgba(60,145,255,.35),0 0 0 0 rgba(60,145,255,0)}}
 .nav-menu{display:flex;align-items:center;gap:2.25rem}
 .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:pointer}
 .nav-burger span{display:block;width:22px;height:2px;border-radius:2px;background:var(--ink);transition:transform .25s,opacity .2s}
