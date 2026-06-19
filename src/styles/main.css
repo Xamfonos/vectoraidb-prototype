@@ -101,7 +101,7 @@ nav.scrolled{border-bottom-color:var(--border)}
 .btn-lg-ghost:hover{border-color:#c4c8cf;transform:translateY(-1px)}
 
 /* HERO */
-.hero{display:grid;grid-template-columns:46% 54%;min-height:calc(100vh - 60px);background:radial-gradient(55% 65% at 80% 40%,rgba(46,110,230,.20),transparent 62%),radial-gradient(46% 56% at 66% 72%,rgba(46,214,210,.10),transparent 62%),linear-gradient(100deg,#fff 0,#fff 34%,#0A1430 60%,#00030E 80%)}
+.hero{display:grid;grid-template-columns:56% 44%;min-height:calc(100vh - 60px);background:radial-gradient(52% 64% at 82% 40%,rgba(46,110,230,.20),transparent 62%),radial-gradient(44% 54% at 72% 72%,rgba(46,214,210,.10),transparent 62%),linear-gradient(100deg,#fff 0,#fff 44%,#0A1430 66%,#00030E 85%)}
 .hero-left{padding:6rem 3rem 5rem var(--gutter);display:flex;flex-direction:column;justify-content:center;position:relative}
 .eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--teal);border:1px solid rgba(51,167,181,.35);border-radius:100px;padding:5px 14px;margin-bottom:2rem;width:fit-content}
 .hero-h1{font-size:56px;font-weight:600;letter-spacing:-.04em;line-height:1.07;margin-bottom:1.5rem;color:#000032}
