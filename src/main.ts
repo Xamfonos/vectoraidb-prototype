@@ -74,6 +74,8 @@ let W = 0,
   packetHalo: SVGCircleElement | null = null,
   trail: SVGCircleElement[] = [],
   hubGlow: SVGCircleElement | null = null,
+  eyes: SVGCircleElement[] = [],
+  eyeBaseR = 0,
   hubX = 0,
   hubY = 0,
   nodeR = 5,
@@ -169,8 +171,8 @@ function buildSpace(): void {
     Math.min(minWH * 0.34, W / 2 - (labelSize * 5.7 + 16), H / 2 - (labelSize * 1.5 + 22))
   );
   nodeR = Math.max(4, minWH * 0.013);
-  const hubW = Math.min(212, Math.max(104, R * 0.9));
-  const hubH = hubW * 0.4;
+  const hubW = Math.min(124, Math.max(76, R * 0.64));
+  const hubH = hubW * 0.92;
 
   // node ring positions (clockwise from top)
   const pts: Pt[] = STAGES.map((_, i) => {
@@ -226,64 +228,63 @@ function buildSpace(): void {
     vs.appendChild(sp);
   });
 
-  // hub: soft halo + pulsing glow ring + glass chip + labels
+  // hub = the AGENT: soft halo, pulsing glow ring, glassy bot head with glowing eyes
   vs.appendChild(
-    el('circle', { cx: String(hubX), cy: String(hubY), r: String(hubW * 0.95), fill: 'url(#hubHalo)' })
+    el('circle', { cx: String(hubX), cy: String(hubY), r: String(hubW * 1.05), fill: 'url(#hubHalo)' })
   );
   hubGlow = el('circle', {
     cx: String(hubX),
     cy: String(hubY),
-    r: String(hubW * 0.6),
+    r: String(hubW * 0.74),
     fill: 'none',
     stroke: 'url(#vgrad)',
     'stroke-width': '1.25',
     opacity: '0.2',
   }) as SVGCircleElement;
   vs.appendChild(hubGlow);
+
+  const faceX = hubX - hubW / 2;
+  const faceY = hubY - hubH / 2;
+  // antenna + glowing tip
+  const antTop = faceY - hubH * 0.26;
   vs.appendChild(
-    el('rect', {
-      x: String(hubX - hubW / 2),
-      y: String(hubY - hubH / 2),
-      width: String(hubW),
-      height: String(hubH),
-      rx: String(hubH * 0.28),
-      fill: 'url(#hubGlass)',
-      stroke: 'rgba(124,172,255,0.5)',
-      'stroke-width': '1.1',
-      filter: 'url(#hubshadow)',
-    })
+    el('line', { x1: String(hubX), y1: String(faceY + 2), x2: String(hubX), y2: String(antTop), stroke: 'url(#vgrad)', 'stroke-width': '2', 'stroke-linecap': 'round', opacity: '0.85' })
   );
-  // top inner highlight for the glass feel
   vs.appendChild(
-    el('rect', {
-      x: String(hubX - hubW / 2 + 6),
-      y: String(hubY - hubH / 2 + 2),
-      width: String(hubW - 12),
-      height: String(hubH * 0.4),
-      rx: String(hubH * 0.2),
-      fill: 'rgba(255,255,255,0.06)',
-    })
+    el('circle', { cx: String(hubX), cy: String(antTop), r: String(Math.max(2.4, hubW * 0.05)), fill: '#EAFCFF', filter: 'url(#bloom)' })
   );
-  const hubTitle = el('text', {
-    x: String(hubX),
-    y: String(hubY - hubH * 0.06),
-    'text-anchor': 'middle',
-    class: 'v-loop-hub',
-    fill: '#EDF3FF',
-    'font-size': String(Math.max(11, hubW * 0.13)),
+  // ears
+  const earW = hubW * 0.06,
+    earH = hubH * 0.28;
+  [-1, 1].forEach((s) => {
+    vs.appendChild(
+      el('rect', { x: String(s < 0 ? faceX - earW + 1 : faceX + hubW - 1), y: String(hubY - earH / 2), width: String(earW), height: String(earH), rx: String(earW / 2), fill: 'url(#hubGlass)', stroke: 'rgba(124,172,255,0.4)', 'stroke-width': '1' })
+    );
   });
-  hubTitle.textContent = 'VectorAI DB';
-  vs.appendChild(hubTitle);
-  const hubSub = el('text', {
-    x: String(hubX),
-    y: String(hubY + hubH * 0.3),
-    'text-anchor': 'middle',
-    class: 'v-loop-sub',
-    fill: '#62D6E6',
-    'font-size': String(Math.max(8, hubW * 0.085)),
+  // face
+  vs.appendChild(
+    el('rect', { x: String(faceX), y: String(faceY), width: String(hubW), height: String(hubH), rx: String(hubH * 0.3), fill: 'url(#hubGlass)', stroke: 'rgba(124,172,255,0.5)', 'stroke-width': '1.1', filter: 'url(#hubshadow)' })
+  );
+  // glass top highlight
+  vs.appendChild(
+    el('rect', { x: String(faceX + 6), y: String(faceY + 2), width: String(hubW - 12), height: String(hubH * 0.4), rx: String(hubH * 0.22), fill: 'rgba(255,255,255,0.06)' })
+  );
+  // eyes
+  eyeBaseR = Math.max(3, hubW * 0.1);
+  const eyeY = hubY - hubH * 0.02;
+  const eyeDX = hubW * 0.22;
+  eyes = [-1, 1].map((s) => {
+    const e = el('circle', { cx: String(hubX + s * eyeDX), cy: String(eyeY), r: String(eyeBaseR), fill: 'url(#vgrad)', filter: 'url(#bloom)' }) as SVGCircleElement;
+    vs!.appendChild(e);
+    return e;
   });
-  hubSub.textContent = 'agent memory';
-  vs.appendChild(hubSub);
+  // mouth: small glowing grille
+  const mouthY = hubY + hubH * 0.24;
+  for (let i = -1; i <= 1; i++) {
+    vs.appendChild(
+      el('rect', { x: String(hubX + i * hubW * 0.1 - hubW * 0.022), y: String(mouthY), width: String(hubW * 0.044), height: String(Math.max(2, hubH * 0.06)), rx: '1', fill: '#5FD2E6', opacity: '0.7' })
+    );
+  }
 
   // stage nodes + labels
   pts.forEach((p, i) => {
@@ -426,6 +427,7 @@ function loopTick(now: number): void {
     const pulse = hubPulseAt ? Math.max(0, 1 - (now - hubPulseAt) / 650) : 0;
     hubGlow.setAttribute('opacity', String(breathe + pulse * 0.6));
     hubGlow.setAttribute('stroke-width', String(1.25 + pulse * 1.6));
+    eyes.forEach((e) => e.setAttribute('r', String(eyeBaseR * (1 + pulse * 0.3))));
   }
 
   if (readoutHideAt && now > readoutHideAt) {
