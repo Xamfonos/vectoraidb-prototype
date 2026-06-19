@@ -42,6 +42,11 @@
   --border:#DCE6F0; --surface:#ECF3F8; --tint:#ECF3F8;
   --sans:'Roobert','Source Sans 3',sans-serif; --mono:'Source Code Pro',monospace;
   --gutter:200px;
+  /* glassy dark-surface tokens (match the hero) */
+  --glass:linear-gradient(160deg,#0E1E4A 0%,#070C24 80%);
+  --glass-soft:linear-gradient(160deg,#0E1E4A,#070C20);
+  --glass-bd:rgba(124,172,255,.2);
+  --glass-sh:0 16px 40px rgba(6,14,40,.42);
 }
 @media(max-width:1439px){:root{--gutter:140px}}
 @media(max-width:1279px){:root{--gutter:80px}}
@@ -417,6 +422,26 @@ footer{padding-top:2.5rem;padding-bottom:2.5rem;display:flex;justify-content:spa
 .f-links{display:flex;gap:1.75rem;list-style:none}
 .f-links a{font-size:13px;color:var(--faint);transition:color .15s}
 .f-links a:hover{color:var(--text)}
+/* ── HARMONISED GLASS SURFACES (match the hero) ── */
+/* dark code surfaces */
+.code-shell,.deploy-code{background:var(--glass);border:1px solid var(--glass-bd)}
+.code-shell{box-shadow:inset 0 1px 0 rgba(255,255,255,.05),var(--glass-sh)}
+.install-line{background:var(--glass);border:1px solid var(--glass-bd);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 22px rgba(6,14,40,.4)}
+/* dark cards + inner panels */
+.prob-card{background:var(--glass);border:1px solid var(--glass-bd);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),var(--glass-sh)}
+.prob-card:hover{border-color:rgba(124,172,255,.36)}
+.statpanel{background:rgba(120,160,235,.07);border:1px solid var(--glass-bd)}
+/* dark card tops / illustration headers */
+.sc-top,.per-ill,.blog-top{background:var(--glass-soft)}
+/* dark icon badge */
+.deploy-icn{background:linear-gradient(150deg,#1B3A7A,#0A1330);border:1px solid var(--glass-bd)}
+/* developer community (discord) box */
+.ft-community{background:var(--glass);border:1px solid var(--glass-bd);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),var(--glass-sh)}
+/* Get Started: blend the white→dark seam like the hero (single continuous bg) */
+.getstarted{background:radial-gradient(50% 60% at 80% 38%,rgba(46,110,230,.18),transparent 60%),linear-gradient(100deg,#fff 0,#fff 38%,#0A1430 58%,#00030E 80%)}
+.gs-right{background:transparent}
+@media(max-width:1023px){.getstarted{background:radial-gradient(70% 30% at 50% 82%,rgba(46,110,230,.16),transparent 64%),linear-gradient(180deg,#fff 0,#fff 44%,#0A1430 66%,#00030E 90%)}}
+
 /* EXTRA-SMALL PHONES */
 @media(max-width:480px){
   .hero-h1{font-size:29px}
