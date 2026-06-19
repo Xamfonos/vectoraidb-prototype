@@ -10,18 +10,12 @@
 <body>
 <!-- NAV -->
 <nav id="nav"><div class="nav-inner col">
-  <div class="nav-logo"><span class="nav-mark"><svg width="26" height="25" class="actian-mark" viewBox="0 0 120 116" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Actian">
-<defs><linearGradient id="actg" x1="60" y1="2" x2="60" y2="114" gradientUnits="userSpaceOnUse">
-<stop stop-color="#33C6D8"/><stop offset=".35" stop-color="#3C91FF"/><stop offset=".7" stop-color="#0F5FDC"/><stop offset="1" stop-color="#000078"/>
-</linearGradient></defs>
-<g stroke="url(#actg)" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" fill="none">
-<path d="M16 108 L60 18 L104 108"/>
-<path d="M36 108 L60 60 L84 108"/>
-<path d="M52 108 L60 92 L68 108"/>
-</g>
-</svg></span><span class="nav-name">VectorAI DB</span><span class="nav-by">by Actian</span></div>
-  <ul class="nav-links"><li><a href="#">Docs</a></li><li><a href="#">Pricing</a></li><li><a href="#">Use cases</a></li><li><a href="#">Blog</a></li></ul>
-  <div class="nav-cta"><button class="btn-s-ghost">Download</button><button class="btn-s-primary">Join community</button></div>
+  <a class="nav-logo" href="#"><span class="nav-logo-img" role="img" aria-label="Actian"></span><span class="nav-name">VectorAI DB</span></a>
+  <div class="nav-menu" id="navMenu">
+    <ul class="nav-links"><li><a href="#">Docs</a></li><li><a href="#">Pricing</a></li><li><a href="#">Use cases</a></li><li><a href="#">Blog</a></li></ul>
+    <div class="nav-cta"><button class="btn-s-ghost">Join community</button><button class="btn-s-primary nav-dl">Download</button></div>
+  </div>
+  <button class="nav-burger" id="navToggle" aria-label="Menu" aria-controls="navMenu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div></nav>
 
 <!-- HERO -->
@@ -306,6 +300,7 @@
 <section class="compare section col fi">
   <h2 class="sec-h2">How VectorAI DB compares</h2>
   <p class="sec-sub">An honest look at where each vector database runs and how it performs. Throughput measured on 10M vectors at 768 dimensions, identical hardware.</p>
+  <div class="cmp-scroll">
   <table class="cmp-table" id="cmptable">
     <thead><tr><th>&nbsp;</th><th class="vdb">VectorAI DB</th><th>Pinecone</th><th>Qdrant</th><th>Weaviate</th></tr></thead>
     <tbody>
@@ -316,6 +311,7 @@
       <tr class="cmp-row"><td class="feat">Fully managed cloud option</td><td class="vdb"><span class="cmp-x">Self-managed</span></td><td><span class="cmp-check2"><i class="ti ti-check"></i>Yes</span></td><td><span class="cmp-check2"><i class="ti ti-check"></i>Cloud</span></td><td><span class="cmp-check2"><i class="ti ti-check"></i>Cloud</span></td></tr>
     </tbody>
   </table>
+  </div>
   <p class="cmp-note">Pinecone and Qdrant throughput figures from independent 2026 benchmarks at comparable scale. VectorAI DB is built for teams that run where their data lives. If you want a hands-off managed cloud, the others are a strong fit.</p>
 </section>
 
