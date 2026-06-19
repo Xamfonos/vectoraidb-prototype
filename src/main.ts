@@ -36,191 +36,428 @@ document.querySelectorAll<HTMLElement>('[data-copy-code]').forEach((btn) => {
   btn.addEventListener('click', () => copyText(btn, currentSnippet.plain));
 });
 
-// ── SEMANTIC MEMORY CLUSTER VISUALISATION ──
-// Illustrates how VectorAI DB organises agent memory into semantic clusters and
-// resolves a query to its nearest matches. Loops through clusters; honours reduced motion.
-interface MemPoint {
+// ── AGENT MEMORY LOOP VISUALISATION ──
+// An agent reasoning cycle (observe → reason → act → write → recall) circling a
+// central VectorAI DB memory hub. A packet glides the loop; at write/recall it
+// pulses to/from the hub and surfaces the retrieval readout. Honours reduced motion.
+interface LoopNode {
+  name: string;
   x: number;
   y: number;
-  el: SVGCircleElement | null;
-  base: number; // baseline opacity
+  len: number; // arc-length position along the loop path
+  el: SVGCircleElement;
+  litAt: number;
 }
-interface Cluster {
-  cx: number;
-  cy: number;
-  color: string;
-  readout: string;
-  points: MemPoint[];
+interface Pt {
+  x: number;
+  y: number;
 }
-// Relative cluster layout — positions are fractions of width/height so it scales.
-const CLUSTER_DEFS = [
-  { label: 'session memory', fx: 0.3, fy: 0.3, color: '#36D6D9', readout: '12ms &middot; 5 results &middot; 99.2% recall' },
-  { label: 'tool calls', fx: 0.71, fy: 0.33, color: '#3C91FF', readout: '13ms &middot; 5 results &middot; 99.1% recall' },
-  { label: 'doc context', fx: 0.42, fy: 0.72, color: '#FFB91E', readout: '14ms &middot; 5 results &middot; 98.9% recall' },
-];
+
 const vs = document.getElementById('vspace') as SVGSVGElement | null;
 const readout = document.getElementById('vreadout');
 const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STAGES = ['observe', 'reason', 'act', 'write', 'recall'];
+const WRITE_I = 3;
+const RECALL_I = 4;
+const LOOP_MS = 6200;
+const TRAIL = 11;
+const NODE_FAINT = '#46639F';
+const NODE_LABEL = '#92A6CE';
+const RECALL_READOUT = '13ms &middot; memory recall &middot; 99.1%';
+
 let W = 0,
   H = 0,
-  clusters: Cluster[] = [];
-let qEls: SVGElement[] = [];
+  nodes: LoopNode[] = [],
+  loopPath: SVGPathElement | null = null,
+  totalLen = 0,
+  packet: SVGCircleElement | null = null,
+  packetHalo: SVGCircleElement | null = null,
+  trail: SVGCircleElement[] = [],
+  hubGlow: SVGCircleElement | null = null,
+  hubX = 0,
+  hubY = 0,
+  nodeR = 5,
+  startT = 0,
+  prevLen = 0,
+  hubPulseAt = 0,
+  readoutHideAt = 0,
+  rafId = 0;
+
+const easeInOut = (t: number): number => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+// Closed Catmull-Rom spline through the points → smooth gliding loop (no corner snaps).
+function smoothClosedPath(pts: Pt[]): string {
+  const n = pts.length;
+  let d = `M ${pts[0].x} ${pts[0].y}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = pts[(i - 1 + n) % n],
+      p1 = pts[i],
+      p2 = pts[(i + 1) % n],
+      p3 = pts[(i + 2) % n];
+    const c1x = p1.x + (p2.x - p0.x) / 6,
+      c1y = p1.y + (p2.y - p0.y) / 6,
+      c2x = p2.x - (p3.x - p1.x) / 6,
+      c2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C ${c1x} ${c1y} ${c2x} ${c2y} ${p2.x} ${p2.y}`;
+  }
+  return d + ' Z';
+}
+
+function lengthAtPoint(path: SVGPathElement, pt: Pt): number {
+  let best = 0,
+    bestD = Infinity;
+  const steps = 260;
+  for (let i = 0; i <= steps; i++) {
+    const L = (totalLen * i) / steps;
+    const p = path.getPointAtLength(L);
+    const dd = (p.x - pt.x) ** 2 + (p.y - pt.y) ** 2;
+    if (dd < bestD) {
+      bestD = dd;
+      best = L;
+    }
+  }
+  return best;
+}
+
+function el(tag: string, attrs: Record<string, string>): SVGElement {
+  const e = document.createElementNS(svgNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
 
 function buildSpace(): void {
   if (!vs) return;
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = 0;
+  startT = 0;
+  prevLen = 0;
   vs.innerHTML = '';
-  clusters = [];
-  qEls = [];
+  nodes = [];
+  trail = [];
   const r = vs.getBoundingClientRect();
   W = r.width;
   H = r.height;
   if (!W || !H) return;
   vs.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
   const defs = document.createElementNS(svgNS, 'defs');
   defs.innerHTML =
-    '<linearGradient id="vgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#36D6D9"/><stop offset=".4" stop-color="#3C91FF"/><stop offset="1" stop-color="#0F5FDC"/></linearGradient><filter id="vglow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+    '<linearGradient id="vgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CE8E0"/><stop offset=".5" stop-color="#49A2FF"/><stop offset="1" stop-color="#6E63FF"/></linearGradient>' +
+    '<radialGradient id="hubGlass" cx="38%" cy="26%" r="90%"><stop offset="0" stop-color="#15295E"/><stop offset="1" stop-color="#05081C"/></radialGradient>' +
+    '<radialGradient id="hubHalo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E7BFF" stop-opacity=".5"/><stop offset="1" stop-color="#2E7BFF" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="packetGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#8FF4F0" stop-opacity=".9"/><stop offset="1" stop-color="#49A2FF" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="spot" cx="52%" cy="44%" r="60%"><stop offset="0" stop-color="#1E50A8" stop-opacity=".45"/><stop offset=".55" stop-color="#0A1E50" stop-opacity=".22"/><stop offset="1" stop-color="#00030E" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="gridFade" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".65" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+    `<mask id="gridMask"><rect x="0" y="0" width="${W}" height="${H}" fill="url(#gridFade)"/></mask>` +
+    '<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#41619E" opacity=".55"/></pattern>' +
+    '<filter id="bloom" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+    '<filter id="soft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="6"/></filter>' +
+    '<filter id="hubshadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#02050F" flood-opacity="0.6"/></filter>';
   vs.appendChild(defs);
 
-  const small = W < 380;
-  const spread = Math.min(W, H) * 0.12;
-  const count = small ? 6 : 8;
-  const labelSize = Math.max(9, Math.round(W * 0.018));
+  // dark-panel ambience: soft spotlight + radially-faded dot grid (Vercel-style)
+  vs.appendChild(el('rect', { x: '0', y: '0', width: String(W), height: String(H), fill: 'url(#spot)' }));
+  vs.appendChild(el('rect', { x: '0', y: '0', width: String(W), height: String(H), fill: 'url(#dots)', mask: 'url(#gridMask)', opacity: '0.6' }));
 
-  CLUSTER_DEFS.forEach((def) => {
-    const ccx = W * def.fx;
-    const ccy = H * def.fy;
-    const points: MemPoint[] = [];
-    // faint hull ring so the cluster reads as a group at rest
-    const ring = document.createElementNS(svgNS, 'circle');
-    ring.setAttribute('cx', String(ccx));
-    ring.setAttribute('cy', String(ccy));
-    ring.setAttribute('r', String(spread * 1.5));
-    ring.setAttribute('fill', 'none');
-    ring.setAttribute('stroke', def.color);
-    ring.setAttribute('stroke-width', '1');
-    ring.setAttribute('opacity', '.12');
-    vs.appendChild(ring);
-    // scattered embedding points (uniform-ish within the disc)
-    for (let i = 0; i < count; i++) {
-      const ang = Math.random() * Math.PI * 2;
-      const rad = Math.sqrt(Math.random()) * spread;
-      const x = ccx + Math.cos(ang) * rad;
-      const y = ccy + Math.sin(ang) * rad;
-      const base = 0.34 + Math.random() * 0.16;
-      const c = document.createElementNS(svgNS, 'circle');
-      c.setAttribute('cx', String(x));
-      c.setAttribute('cy', String(y));
-      c.setAttribute('r', '3');
-      c.setAttribute('fill', def.color);
-      c.setAttribute('opacity', String(base));
-      vs.appendChild(c);
-      points.push({ x, y, el: c, base });
-    }
-    // cluster label
-    const t = document.createElementNS(svgNS, 'text');
-    t.setAttribute('x', String(ccx));
-    t.setAttribute('y', String(ccy + spread * 1.5 + labelSize + 4));
-    t.setAttribute('text-anchor', 'middle');
-    t.setAttribute('class', 'v-cluster-lbl');
-    t.setAttribute('fill', def.color);
-    t.setAttribute('font-size', String(labelSize));
-    t.textContent = def.label;
-    vs.appendChild(t);
+  const minWH = Math.min(W, H);
+  hubX = W / 2;
+  hubY = H / 2;
+  const labelSize = Math.max(10, Math.min(15, Math.round(minWH * 0.026)));
+  // clamp the ring so nodes AND their outer labels always stay inside the column
+  const R = Math.max(
+    70,
+    Math.min(minWH * 0.34, W / 2 - (labelSize * 5.7 + 16), H / 2 - (labelSize * 1.5 + 22))
+  );
+  nodeR = Math.max(4, minWH * 0.013);
+  const hubW = Math.min(212, Math.max(104, R * 0.9));
+  const hubH = hubW * 0.4;
 
-    clusters.push({ cx: ccx, cy: ccy, color: def.color, readout: def.readout, points });
+  // node ring positions (clockwise from top)
+  const pts: Pt[] = STAGES.map((_, i) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / STAGES.length;
+    return { x: hubX + R * Math.cos(a), y: hubY + R * Math.sin(a) };
   });
-}
 
-function clearQ(): void {
-  qEls.forEach((e) => e.remove());
-  qEls = [];
-  clusters.forEach((cl) =>
-    cl.points.forEach((p) => {
-      p.el!.setAttribute('opacity', String(p.base));
-      p.el!.removeAttribute('filter');
-      p.el!.setAttribute('r', '3');
-      p.el!.setAttribute('fill', cl.color);
+  // loop path: blurred glow underlay + crisp gradient ring
+  const dPath = smoothClosedPath(pts);
+  vs.appendChild(
+    el('path', { d: dPath, fill: 'none', stroke: 'url(#vgrad)', 'stroke-width': '3.5', opacity: '0.16', filter: 'url(#soft)' })
+  );
+  loopPath = el('path', {
+    d: dPath,
+    fill: 'none',
+    stroke: 'url(#vgrad)',
+    'stroke-width': '1.3',
+    opacity: '0.55',
+  }) as SVGPathElement;
+  vs.appendChild(loopPath);
+  totalLen = loopPath.getTotalLength();
+
+  // direction arrowheads at arc midpoints between consecutive nodes
+  const nodeLens = pts.map((p) => lengthAtPoint(loopPath!, p));
+  for (let i = 0; i < pts.length; i++) {
+    const a = nodeLens[i];
+    const b = i + 1 < pts.length ? nodeLens[i + 1] : totalLen + nodeLens[0];
+    const midL = ((a + b) / 2) % totalLen;
+    const m = loopPath.getPointAtLength(midL);
+    const m2 = loopPath.getPointAtLength((midL + 1) % totalLen);
+    const deg = (Math.atan2(m2.y - m.y, m2.x - m.x) * 180) / Math.PI;
+    const head = el('path', {
+      d: 'M -3.5 -3 L 3.5 0 L -3.5 3 Z',
+      fill: 'url(#vgrad)',
+      opacity: '0.55',
+      transform: `translate(${m.x} ${m.y}) rotate(${deg})`,
+    });
+    vs.appendChild(head);
+  }
+
+  // spokes: write → hub, hub → recall
+  [WRITE_I, RECALL_I].forEach((idx) => {
+    const sp = el('line', {
+      x1: String(pts[idx].x),
+      y1: String(pts[idx].y),
+      x2: String(hubX),
+      y2: String(hubY),
+      stroke: idx === WRITE_I ? '#FFB91E' : '#36D6D9',
+      'stroke-width': '1',
+      'stroke-dasharray': '3 4',
+      opacity: '0.32',
+    });
+    vs.appendChild(sp);
+  });
+
+  // hub: soft halo + pulsing glow ring + glass chip + labels
+  vs.appendChild(
+    el('circle', { cx: String(hubX), cy: String(hubY), r: String(hubW * 0.95), fill: 'url(#hubHalo)' })
+  );
+  hubGlow = el('circle', {
+    cx: String(hubX),
+    cy: String(hubY),
+    r: String(hubW * 0.6),
+    fill: 'none',
+    stroke: 'url(#vgrad)',
+    'stroke-width': '1.25',
+    opacity: '0.2',
+  }) as SVGCircleElement;
+  vs.appendChild(hubGlow);
+  vs.appendChild(
+    el('rect', {
+      x: String(hubX - hubW / 2),
+      y: String(hubY - hubH / 2),
+      width: String(hubW),
+      height: String(hubH),
+      rx: String(hubH * 0.28),
+      fill: 'url(#hubGlass)',
+      stroke: 'rgba(124,172,255,0.5)',
+      'stroke-width': '1.1',
+      filter: 'url(#hubshadow)',
     })
   );
+  // top inner highlight for the glass feel
+  vs.appendChild(
+    el('rect', {
+      x: String(hubX - hubW / 2 + 6),
+      y: String(hubY - hubH / 2 + 2),
+      width: String(hubW - 12),
+      height: String(hubH * 0.4),
+      rx: String(hubH * 0.2),
+      fill: 'rgba(255,255,255,0.06)',
+    })
+  );
+  const hubTitle = el('text', {
+    x: String(hubX),
+    y: String(hubY - hubH * 0.06),
+    'text-anchor': 'middle',
+    class: 'v-loop-hub',
+    fill: '#EDF3FF',
+    'font-size': String(Math.max(11, hubW * 0.13)),
+  });
+  hubTitle.textContent = 'VectorAI DB';
+  vs.appendChild(hubTitle);
+  const hubSub = el('text', {
+    x: String(hubX),
+    y: String(hubY + hubH * 0.3),
+    'text-anchor': 'middle',
+    class: 'v-loop-sub',
+    fill: '#62D6E6',
+    'font-size': String(Math.max(8, hubW * 0.085)),
+  });
+  hubSub.textContent = 'agent memory';
+  vs.appendChild(hubSub);
+
+  // stage nodes + labels
+  pts.forEach((p, i) => {
+    const c = el('circle', {
+      cx: String(p.x),
+      cy: String(p.y),
+      r: String(nodeR),
+      fill: NODE_FAINT,
+      opacity: '0.45',
+    }) as SVGCircleElement;
+    vs.appendChild(c);
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / STAGES.length;
+    const lx = hubX + (R + labelSize * 1.5) * Math.cos(a);
+    const ly = hubY + (R + labelSize * 1.5) * Math.sin(a);
+    const cos = Math.cos(a);
+    const lbl = el('text', {
+      x: String(lx),
+      y: String(ly),
+      'text-anchor': cos > 0.3 ? 'start' : cos < -0.3 ? 'end' : 'middle',
+      'dominant-baseline': 'middle',
+      class: 'v-loop-lbl',
+      fill: NODE_LABEL,
+      'font-size': String(labelSize),
+    });
+    lbl.textContent = STAGES[i];
+    vs.appendChild(lbl);
+    nodes.push({ name: STAGES[i], x: p.x, y: p.y, len: nodeLens[i], el: c, litAt: 0 });
+  });
+
+  // comet trail (drawn before the head so the head sits on top)
+  for (let i = 0; i < TRAIL; i++) {
+    const tc = el('circle', { r: '1', fill: 'url(#vgrad)', opacity: '0' }) as SVGCircleElement;
+    vs.appendChild(tc);
+    trail.push(tc);
+  }
+  // packet: soft glowing halo + bright near-white core
+  packetHalo = el('circle', {
+    cx: String(pts[0].x),
+    cy: String(pts[0].y),
+    r: String(Math.max(9, nodeR * 2.6)),
+    fill: 'url(#packetGlow)',
+  }) as SVGCircleElement;
+  vs.appendChild(packetHalo);
+  packet = el('circle', {
+    cx: String(pts[0].x),
+    cy: String(pts[0].y),
+    r: String(Math.max(3, nodeR * 0.82)),
+    fill: '#EAFCFF',
+    filter: 'url(#bloom)',
+  }) as SVGCircleElement;
+  packet.style.willChange = 'transform';
+  vs.appendChild(packet);
 }
 
-// Drop a query vector into a cluster and light up its k nearest matches.
-function highlightMatches(cl: Cluster, animate: boolean): void {
-  const k = Math.min(5, cl.points.length);
-  const nearest = [...cl.points]
-    .sort((a, b) => Math.hypot(a.x - cl.cx, a.y - cl.cy) - Math.hypot(b.x - cl.cx, b.y - cl.cy))
-    .slice(0, k);
+// Animate a token gliding hub↔node along the spoke.
+function spawnToken(nd: LoopNode, toHub: boolean): void {
+  if (!vs) return;
+  const from: Pt = toHub ? { x: nd.x, y: nd.y } : { x: hubX, y: hubY };
+  const to: Pt = toHub ? { x: hubX, y: hubY } : { x: nd.x, y: nd.y };
+  const c = el('circle', {
+    r: '3.4',
+    fill: toHub ? '#FFB91E' : '#36D6D9',
+    filter: 'url(#bloom)',
+  }) as SVGCircleElement;
+  vs.appendChild(c);
+  const dur = 620;
+  const s = performance.now();
+  const step = (n: number): void => {
+    const t = Math.min((n - s) / dur, 1);
+    const e = easeInOut(t);
+    c.setAttribute('cx', String(from.x + (to.x - from.x) * e));
+    c.setAttribute('cy', String(from.y + (to.y - from.y) * e));
+    c.setAttribute('opacity', String(1 - Math.max(0, (t - 0.7) / 0.3)));
+    if (t < 1) requestAnimationFrame(step);
+    else c.remove();
+  };
+  requestAnimationFrame(step);
+}
 
-  const q = document.createElementNS(svgNS, 'circle');
-  q.setAttribute('cx', String(cl.cx));
-  q.setAttribute('cy', String(cl.cy));
-  q.setAttribute('r', '5');
-  q.setAttribute('fill', 'url(#vgrad)');
-  q.setAttribute('filter', 'url(#vglow)');
-  vs!.appendChild(q);
-  qEls.push(q);
+function crossed(target: number, prev: number, cur: number): boolean {
+  return prev <= cur ? target > prev && target <= cur : target > prev || target <= cur;
+}
 
-  nearest.forEach((p, i) => {
-    const light = (): void => {
-      p.el!.setAttribute('fill', 'url(#vgrad)');
-      p.el!.setAttribute('opacity', '1');
-      p.el!.setAttribute('r', '4.5');
-      p.el!.setAttribute('filter', 'url(#vglow)');
-      const l = document.createElementNS(svgNS, 'line');
-      l.setAttribute('x1', String(cl.cx));
-      l.setAttribute('y1', String(cl.cy));
-      l.setAttribute('x2', String(p.x));
-      l.setAttribute('y2', String(p.y));
-      l.setAttribute('stroke', 'url(#vgrad)');
-      l.setAttribute('stroke-width', '1.5');
-      l.setAttribute('opacity', animate ? '0' : '.55');
-      vs!.insertBefore(l, vs!.firstChild!.nextSibling);
-      qEls.push(l);
-      if (animate) {
-        requestAnimationFrame(() => {
-          l.style.transition = 'opacity .3s';
-          l.setAttribute('opacity', '.55');
-        });
+function lightNode(nd: LoopNode, now: number): void {
+  const lit = nd.litAt ? Math.max(0, 1 - (now - nd.litAt) / 750) : 0;
+  nd.el.setAttribute('r', String(nodeR + lit * 3.2));
+  nd.el.setAttribute('opacity', String(0.4 + lit * 0.6));
+  nd.el.setAttribute('fill', lit > 0.02 ? 'url(#vgrad)' : NODE_FAINT);
+  if (lit > 0.02) nd.el.setAttribute('filter', 'url(#bloom)');
+  else nd.el.removeAttribute('filter');
+}
+
+function loopTick(now: number): void {
+  if (!loopPath || !packet || !totalLen) return;
+  if (!startT) startT = now;
+  const p = ((now - startT) % LOOP_MS) / LOOP_MS;
+  const curLen = p * totalLen;
+
+  const head = loopPath.getPointAtLength(curLen);
+  packet.setAttribute('cx', String(head.x));
+  packet.setAttribute('cy', String(head.y));
+  if (packetHalo) {
+    packetHalo.setAttribute('cx', String(head.x));
+    packetHalo.setAttribute('cy', String(head.y));
+  }
+
+  for (let i = 0; i < TRAIL; i++) {
+    const back = curLen - (i + 1) * totalLen * 0.012;
+    const L = ((back % totalLen) + totalLen) % totalLen;
+    const pt = loopPath.getPointAtLength(L);
+    const f = 1 - (i + 1) / (TRAIL + 1);
+    trail[i].setAttribute('cx', String(pt.x));
+    trail[i].setAttribute('cy', String(pt.y));
+    trail[i].setAttribute('r', String(0.6 + 2.4 * f));
+    trail[i].setAttribute('opacity', String(0.5 * f));
+  }
+
+  nodes.forEach((nd, idx) => {
+    if (crossed(nd.len, prevLen, curLen)) {
+      nd.litAt = now;
+      if (idx === WRITE_I) {
+        spawnToken(nd, true);
+        hubPulseAt = now;
+      } else if (idx === RECALL_I) {
+        spawnToken(nd, false);
+        hubPulseAt = now;
+        if (readout) {
+          readout.innerHTML = RECALL_READOUT;
+          readout.classList.add('show');
+        }
+        readoutHideAt = now + 2800;
       }
-    };
-    if (animate) setTimeout(light, 120 + i * 70);
-    else light();
+    }
+    lightNode(nd, now);
   });
+
+  // hub: gentle breathing + I/O pulse
+  if (hubGlow) {
+    const breathe = 0.16 + 0.05 * (0.5 + 0.5 * Math.sin(now / 1500));
+    const pulse = hubPulseAt ? Math.max(0, 1 - (now - hubPulseAt) / 650) : 0;
+    hubGlow.setAttribute('opacity', String(breathe + pulse * 0.6));
+    hubGlow.setAttribute('stroke-width', String(1.25 + pulse * 1.6));
+  }
+
+  if (readoutHideAt && now > readoutHideAt) {
+    readout?.classList.remove('show');
+    readoutHideAt = 0;
+  }
+
+  prevLen = curLen;
+  rafId = requestAnimationFrame(loopTick);
 }
 
 function showStatic(): void {
-  if (!clusters.length) return;
-  highlightMatches(clusters[0], false);
+  if (!nodes.length) return;
+  const recall = nodes[RECALL_I];
+  recall.litAt = performance.now();
+  lightNode(recall, performance.now());
+  spawnToken(recall, false);
+  if (hubGlow) hubGlow.setAttribute('opacity', '0.4');
   if (readout) {
-    readout.innerHTML = clusters[0].readout;
+    readout.innerHTML = RECALL_READOUT;
     readout.classList.add('show');
   }
 }
 
-let cursor = 0;
-function runQuery(): void {
-  clearQ();
-  readout?.classList.remove('show');
-  if (!W || !clusters.length) return;
-  const cl = clusters[cursor % clusters.length];
-  cursor++;
-  highlightMatches(cl, true);
-  if (readout) readout.innerHTML = cl.readout;
-  setTimeout(() => readout?.classList.add('show'), 120 + 5 * 70 + 150);
-  setTimeout(() => clearQ(), 3400);
-}
-
-buildSpace();
-if (prefersReduce) {
-  showStatic();
-} else {
-  runQuery();
-  setInterval(runQuery, 4000);
-}
-addEventListener('resize', () => {
+function start(): void {
   buildSpace();
   if (prefersReduce) showStatic();
-});
+  else if (W) rafId = requestAnimationFrame(loopTick);
+}
+
+start();
+addEventListener('resize', start);
 
 // ── SLIDER ──
 const track = document.getElementById('strack')!;
