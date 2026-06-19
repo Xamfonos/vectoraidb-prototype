@@ -148,18 +148,10 @@ function buildSpace(): void {
     '<radialGradient id="hubGlass" cx="38%" cy="26%" r="90%"><stop offset="0" stop-color="#15295E"/><stop offset="1" stop-color="#05081C"/></radialGradient>' +
     '<radialGradient id="hubHalo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E7BFF" stop-opacity=".5"/><stop offset="1" stop-color="#2E7BFF" stop-opacity="0"/></radialGradient>' +
     '<radialGradient id="packetGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#8FF4F0" stop-opacity=".9"/><stop offset="1" stop-color="#49A2FF" stop-opacity="0"/></radialGradient>' +
-    '<radialGradient id="spot" cx="52%" cy="44%" r="60%"><stop offset="0" stop-color="#1E50A8" stop-opacity=".45"/><stop offset=".55" stop-color="#0A1E50" stop-opacity=".22"/><stop offset="1" stop-color="#00030E" stop-opacity="0"/></radialGradient>' +
-    '<radialGradient id="gridFade" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".65" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
-    `<mask id="gridMask"><rect x="0" y="0" width="${W}" height="${H}" fill="url(#gridFade)"/></mask>` +
-    '<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#41619E" opacity=".55"/></pattern>' +
     '<filter id="bloom" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
     '<filter id="soft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="6"/></filter>' +
     '<filter id="hubshadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#02050F" flood-opacity="0.6"/></filter>';
   vs.appendChild(defs);
-
-  // dark-panel ambience: soft spotlight + radially-faded dot grid (Vercel-style)
-  vs.appendChild(el('rect', { x: '0', y: '0', width: String(W), height: String(H), fill: 'url(#spot)' }));
-  vs.appendChild(el('rect', { x: '0', y: '0', width: String(W), height: String(H), fill: 'url(#dots)', mask: 'url(#gridMask)', opacity: '0.6' }));
 
   const minWH = Math.min(W, H);
   hubX = W / 2;
