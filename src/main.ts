@@ -74,8 +74,8 @@ let W = 0,
   packetHalo: SVGCircleElement | null = null,
   trail: SVGCircleElement[] = [],
   hubGlow: SVGCircleElement | null = null,
-  eyes: SVGCircleElement[] = [],
-  eyeBaseR = 0,
+  coreEls: SVGCircleElement[] = [],
+  coreBaseR = 0,
   hubX = 0,
   hubY = 0,
   nodeR = 5,
@@ -148,6 +148,7 @@ function buildSpace(): void {
     '<radialGradient id="hubGlass" cx="38%" cy="26%" r="90%"><stop offset="0" stop-color="#15295E"/><stop offset="1" stop-color="#05081C"/></radialGradient>' +
     '<radialGradient id="hubHalo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E7BFF" stop-opacity=".5"/><stop offset="1" stop-color="#2E7BFF" stop-opacity="0"/></radialGradient>' +
     '<radialGradient id="packetGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#8FF4F0" stop-opacity=".9"/><stop offset="1" stop-color="#49A2FF" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="coreGrad" cx="38%" cy="32%" r="78%"><stop offset="0" stop-color="#EAFCFF"/><stop offset=".22" stop-color="#7FE6EC"/><stop offset=".55" stop-color="#3C91FF"/><stop offset="1" stop-color="#0A1A46"/></radialGradient>' +
     '<filter id="bloom" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
     '<filter id="soft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="6"/></filter>' +
     '<filter id="hubshadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="8" stdDeviation="13" flood-color="#02050F" flood-opacity="0.6"/></filter>';
@@ -164,7 +165,6 @@ function buildSpace(): void {
   );
   nodeR = Math.max(4, minWH * 0.013);
   const hubW = Math.min(124, Math.max(76, R * 0.64));
-  const hubH = hubW * 0.92;
 
   // node ring positions (clockwise from top)
   const pts: Pt[] = STAGES.map((_, i) => {
@@ -220,14 +220,14 @@ function buildSpace(): void {
     vs.appendChild(sp);
   });
 
-  // hub = the AGENT: soft halo, pulsing glow ring, glassy bot head with glowing eyes
+  // hub = the AGENT CORE (abstract): soft halo, pulsing ring, glowing energy orb
   vs.appendChild(
     el('circle', { cx: String(hubX), cy: String(hubY), r: String(hubW * 1.05), fill: 'url(#hubHalo)' })
   );
   hubGlow = el('circle', {
     cx: String(hubX),
     cy: String(hubY),
-    r: String(hubW * 0.74),
+    r: String(hubW * 0.78),
     fill: 'none',
     stroke: 'url(#vgrad)',
     'stroke-width': '1.25',
@@ -235,48 +235,21 @@ function buildSpace(): void {
   }) as SVGCircleElement;
   vs.appendChild(hubGlow);
 
-  const faceX = hubX - hubW / 2;
-  const faceY = hubY - hubH / 2;
-  // antenna + glowing tip
-  const antTop = faceY - hubH * 0.26;
-  vs.appendChild(
-    el('line', { x1: String(hubX), y1: String(faceY + 2), x2: String(hubX), y2: String(antTop), stroke: 'url(#vgrad)', 'stroke-width': '2', 'stroke-linecap': 'round', opacity: '0.85' })
-  );
-  vs.appendChild(
-    el('circle', { cx: String(hubX), cy: String(antTop), r: String(Math.max(2.4, hubW * 0.05)), fill: '#EAFCFF', filter: 'url(#bloom)' })
-  );
-  // ears
-  const earW = hubW * 0.06,
-    earH = hubH * 0.28;
-  [-1, 1].forEach((s) => {
-    vs.appendChild(
-      el('rect', { x: String(s < 0 ? faceX - earW + 1 : faceX + hubW - 1), y: String(hubY - earH / 2), width: String(earW), height: String(earH), rx: String(earW / 2), fill: 'url(#hubGlass)', stroke: 'rgba(124,172,255,0.4)', 'stroke-width': '1' })
-    );
-  });
-  // face
-  vs.appendChild(
-    el('rect', { x: String(faceX), y: String(faceY), width: String(hubW), height: String(hubH), rx: String(hubH * 0.3), fill: 'url(#hubGlass)', stroke: 'rgba(124,172,255,0.5)', 'stroke-width': '1.1', filter: 'url(#hubshadow)' })
-  );
-  // glass top highlight
-  vs.appendChild(
-    el('rect', { x: String(faceX + 6), y: String(faceY + 2), width: String(hubW - 12), height: String(hubH * 0.4), rx: String(hubH * 0.22), fill: 'rgba(255,255,255,0.06)' })
-  );
-  // eyes
-  eyeBaseR = Math.max(3, hubW * 0.1);
-  const eyeY = hubY - hubH * 0.02;
-  const eyeDX = hubW * 0.22;
-  eyes = [-1, 1].map((s) => {
-    const e = el('circle', { cx: String(hubX + s * eyeDX), cy: String(eyeY), r: String(eyeBaseR), fill: 'url(#vgrad)', filter: 'url(#bloom)' }) as SVGCircleElement;
-    vs!.appendChild(e);
-    return e;
-  });
-  // mouth: small glowing grille
-  const mouthY = hubY + hubH * 0.24;
-  for (let i = -1; i <= 1; i++) {
-    vs.appendChild(
-      el('rect', { x: String(hubX + i * hubW * 0.1 - hubW * 0.022), y: String(mouthY), width: String(hubW * 0.044), height: String(Math.max(2, hubH * 0.06)), rx: '1', fill: '#5FD2E6', opacity: '0.7' })
-    );
-  }
+  const coreR = hubW * 0.46;
+  coreBaseR = coreR;
+  // diffuse glow under the orb
+  vs.appendChild(el('circle', { cx: String(hubX), cy: String(hubY), r: String(coreR * 1.35), fill: 'url(#packetGlow)', opacity: '0.55' }));
+  // orb body (glossy gradient sphere)
+  const orb = el('circle', { cx: String(hubX), cy: String(hubY), r: String(coreR), fill: 'url(#coreGrad)' }) as SVGCircleElement;
+  vs.appendChild(orb);
+  // bright glowing rim
+  const rim = el('circle', { cx: String(hubX), cy: String(hubY), r: String(coreR), fill: 'none', stroke: 'url(#vgrad)', 'stroke-width': '1.5', opacity: '0.7', filter: 'url(#bloom)' }) as SVGCircleElement;
+  vs.appendChild(rim);
+  coreEls = [orb, rim];
+  // faint inner orbit ring for depth
+  vs.appendChild(el('circle', { cx: String(hubX), cy: String(hubY), r: String(coreR * 0.6), fill: 'none', stroke: 'rgba(180,220,255,.35)', 'stroke-width': '1' }));
+  // glossy specular sheen
+  vs.appendChild(el('ellipse', { cx: String(hubX - coreR * 0.3), cy: String(hubY - coreR * 0.42), rx: String(coreR * 0.36), ry: String(coreR * 0.22), fill: '#FFFFFF', opacity: '0.4', filter: 'url(#soft)' }));
 
   // stage nodes + labels
   pts.forEach((p, i) => {
@@ -419,7 +392,7 @@ function loopTick(now: number): void {
     const pulse = hubPulseAt ? Math.max(0, 1 - (now - hubPulseAt) / 650) : 0;
     hubGlow.setAttribute('opacity', String(breathe + pulse * 0.6));
     hubGlow.setAttribute('stroke-width', String(1.25 + pulse * 1.6));
-    eyes.forEach((e) => e.setAttribute('r', String(eyeBaseR * (1 + pulse * 0.3))));
+    coreEls.forEach((e) => e.setAttribute('r', String(coreBaseR * (1 + pulse * 0.14))));
   }
 
   if (readoutHideAt && now > readoutHideAt) {
