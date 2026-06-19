@@ -9,6 +9,17 @@ const svgNS = 'http://www.w3.org/2000/svg';
 const nav = document.getElementById('nav')!;
 addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
 
+// ── MOBILE NAV (hamburger) ──
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+function setNav(open: boolean): void {
+  document.body.classList.toggle('nav-open', open);
+  navToggle?.setAttribute('aria-expanded', String(open));
+}
+navToggle?.addEventListener('click', () => setNav(!document.body.classList.contains('nav-open')));
+// close the menu after tapping any link or button inside it
+navMenu?.querySelectorAll('a, button').forEach((el) => el.addEventListener('click', () => setNav(false)));
+
 // ── COPY HELPERS ──
 function copyText(btn: HTMLElement, txt: string): void {
   navigator.clipboard.writeText(txt).then(() => {
@@ -25,146 +36,191 @@ document.querySelectorAll<HTMLElement>('[data-copy-code]').forEach((btn) => {
   btn.addEventListener('click', () => copyText(btn, currentSnippet.plain));
 });
 
-// ── ACTIAN KNOWLEDGE GRAPH VISUALISATION ──
-interface VNode {
+// ── SEMANTIC MEMORY CLUSTER VISUALISATION ──
+// Illustrates how VectorAI DB organises agent memory into semantic clusters and
+// resolves a query to its nearest matches. Loops through clusters; honours reduced motion.
+interface MemPoint {
   x: number;
   y: number;
-  chev: number;
-  apex: boolean;
   el: SVGCircleElement | null;
-  base: number;
+  base: number; // baseline opacity
 }
+interface Cluster {
+  cx: number;
+  cy: number;
+  color: string;
+  readout: string;
+  points: MemPoint[];
+}
+// Relative cluster layout — positions are fractions of width/height so it scales.
+const CLUSTER_DEFS = [
+  { label: 'session memory', fx: 0.3, fy: 0.3, color: '#36D6D9', readout: '12ms &middot; 5 results &middot; 99.2% recall' },
+  { label: 'tool calls', fx: 0.71, fy: 0.33, color: '#3C91FF', readout: '13ms &middot; 5 results &middot; 99.1% recall' },
+  { label: 'doc context', fx: 0.42, fy: 0.72, color: '#FFB91E', readout: '14ms &middot; 5 results &middot; 98.9% recall' },
+];
 const vs = document.getElementById('vspace') as SVGSVGElement | null;
 const readout = document.getElementById('vreadout');
+const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let W = 0,
   H = 0,
-  nodes: VNode[] = [];
+  clusters: Cluster[] = [];
+let qEls: SVGElement[] = [];
+
 function buildSpace(): void {
   if (!vs) return;
   vs.innerHTML = '';
-  nodes = [];
+  clusters = [];
+  qEls = [];
   const r = vs.getBoundingClientRect();
   W = r.width;
   H = r.height;
+  if (!W || !H) return;
   vs.setAttribute('viewBox', `0 0 ${W} ${H}`);
   const defs = document.createElementNS(svgNS, 'defs');
   defs.innerHTML =
     '<linearGradient id="vgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#36D6D9"/><stop offset=".4" stop-color="#3C91FF"/><stop offset="1" stop-color="#0F5FDC"/></linearGradient><filter id="vglow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
   vs.appendChild(defs);
-  // Build three nested chevrons (the Actian mark) as node positions
-  const cx = W * 0.52,
-    topY = H * 0.18,
-    baseY = H * 0.82;
-  const chev = [
-    { spread: 0.34, n: 7 },
-    { spread: 0.22, n: 5 },
-    { spread: 0.11, n: 3 },
-  ];
-  chev.forEach((c, ci) => {
-    const half = W * c.spread;
-    const apex = { x: cx, y: topY + ci * ((baseY - topY) * 0.16) };
-    // left arm + apex + right arm
-    const pts: { x: number; y: number }[] = [];
-    const per = c.n;
-    for (let i = 0; i < per; i++) {
-      const t = i / (per - 1); // 0..1 along left arm down
-      pts.push({ x: apex.x - half * t, y: apex.y + (baseY - apex.y) * t });
+
+  const small = W < 380;
+  const spread = Math.min(W, H) * 0.12;
+  const count = small ? 6 : 8;
+  const labelSize = Math.max(9, Math.round(W * 0.018));
+
+  CLUSTER_DEFS.forEach((def) => {
+    const ccx = W * def.fx;
+    const ccy = H * def.fy;
+    const points: MemPoint[] = [];
+    // faint hull ring so the cluster reads as a group at rest
+    const ring = document.createElementNS(svgNS, 'circle');
+    ring.setAttribute('cx', String(ccx));
+    ring.setAttribute('cy', String(ccy));
+    ring.setAttribute('r', String(spread * 1.5));
+    ring.setAttribute('fill', 'none');
+    ring.setAttribute('stroke', def.color);
+    ring.setAttribute('stroke-width', '1');
+    ring.setAttribute('opacity', '.12');
+    vs.appendChild(ring);
+    // scattered embedding points (uniform-ish within the disc)
+    for (let i = 0; i < count; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const rad = Math.sqrt(Math.random()) * spread;
+      const x = ccx + Math.cos(ang) * rad;
+      const y = ccy + Math.sin(ang) * rad;
+      const base = 0.34 + Math.random() * 0.16;
+      const c = document.createElementNS(svgNS, 'circle');
+      c.setAttribute('cx', String(x));
+      c.setAttribute('cy', String(y));
+      c.setAttribute('r', '3');
+      c.setAttribute('fill', def.color);
+      c.setAttribute('opacity', String(base));
+      vs.appendChild(c);
+      points.push({ x, y, el: c, base });
     }
-    for (let i = 1; i < per; i++) {
-      const t = i / (per - 1);
-      pts.push({ x: apex.x + half * t, y: apex.y + (baseY - apex.y) * t });
-    }
-    pts.forEach((p, pi) => {
-      const isApex = Math.abs(p.x - apex.x) < 2 && pi < per;
-      nodes.push({ x: p.x, y: p.y, chev: ci, apex: isApex, el: null, base: 0.42 + Math.random() * 0.15 });
-    });
-  });
-  // draw faint permanent chevron guide-edges so the Actian mark reads at rest
-  [0, 1, 2].forEach((ci) => {
-    const cn = nodes.filter((n) => n.chev === ci).sort((a, b) => a.x - b.x);
-    const apex = nodes.filter((n) => n.chev === ci).reduce((m, n) => (n.y < m.y ? n : m));
-    const left = cn.filter((n) => n.x <= apex.x).sort((a, b) => a.y - b.y);
-    const right = cn.filter((n) => n.x >= apex.x).sort((a, b) => a.y - b.y);
-    [left, right].forEach((arm) => {
-      for (let i = 0; i < arm.length - 1; i++) {
-        const l = document.createElementNS(svgNS, 'line');
-        l.setAttribute('x1', String(arm[i].x));
-        l.setAttribute('y1', String(arm[i].y));
-        l.setAttribute('x2', String(arm[i + 1].x));
-        l.setAttribute('y2', String(arm[i + 1].y));
-        l.setAttribute('stroke', '#3C91FF');
-        l.setAttribute('stroke-width', '1');
-        l.setAttribute('opacity', '.12');
-        vs.appendChild(l);
-      }
-    });
-  });
-  // draw base nodes
-  nodes.forEach((nd) => {
-    const c = document.createElementNS(svgNS, 'circle');
-    c.setAttribute('cx', String(nd.x));
-    c.setAttribute('cy', String(nd.y));
-    c.setAttribute('r', String(nd.apex ? 4 : 3));
-    c.setAttribute('fill', '#3C91FF');
-    c.setAttribute('opacity', String(Math.max(nd.base, 0.4)));
-    vs.appendChild(c);
-    nd.el = c;
+    // cluster label
+    const t = document.createElementNS(svgNS, 'text');
+    t.setAttribute('x', String(ccx));
+    t.setAttribute('y', String(ccy + spread * 1.5 + labelSize + 4));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('class', 'v-cluster-lbl');
+    t.setAttribute('fill', def.color);
+    t.setAttribute('font-size', String(labelSize));
+    t.textContent = def.label;
+    vs.appendChild(t);
+
+    clusters.push({ cx: ccx, cy: ccy, color: def.color, readout: def.readout, points });
   });
 }
-let qEls: SVGElement[] = [];
+
 function clearQ(): void {
   qEls.forEach((e) => e.remove());
   qEls = [];
-  nodes.forEach((n) => {
-    n.el!.setAttribute('opacity', String(n.base));
-    n.el!.removeAttribute('filter');
-    n.el!.setAttribute('r', String(n.apex ? 4 : 3));
-    n.el!.setAttribute('fill', '#3C91FF');
-  });
+  clusters.forEach((cl) =>
+    cl.points.forEach((p) => {
+      p.el!.setAttribute('opacity', String(p.base));
+      p.el!.removeAttribute('filter');
+      p.el!.setAttribute('r', '3');
+      p.el!.setAttribute('fill', cl.color);
+    })
+  );
 }
-function runQuery(): void {
-  clearQ();
-  readout?.classList.remove('show');
-  if (!W) return;
-  // pick a chevron to "resolve" - query enters at base, travels to apex
-  const targetChev = Math.floor(Math.random() * 3);
-  const chevNodes = nodes.filter((n) => n.chev === targetChev);
-  // sort by y descending (base first, apex last) to animate upward flow
-  chevNodes.sort((a, b) => b.y - a.y);
-  // draw edges connecting them as the pulse travels
-  chevNodes.forEach((nd, i) => {
-    setTimeout(() => {
-      nd.el!.setAttribute('fill', 'url(#vgrad)');
-      nd.el!.setAttribute('opacity', '1');
-      nd.el!.setAttribute('r', String(nd.apex ? 6 : 4.5));
-      nd.el!.setAttribute('filter', 'url(#vglow)');
-      // connect to previous node
-      if (i > 0) {
-        const prev = chevNodes[i - 1];
-        const l = document.createElementNS(svgNS, 'line');
-        l.setAttribute('x1', String(prev.x));
-        l.setAttribute('y1', String(prev.y));
-        l.setAttribute('x2', String(nd.x));
-        l.setAttribute('y2', String(nd.y));
-        l.setAttribute('stroke', 'url(#vgrad)');
-        l.setAttribute('stroke-width', '1.5');
-        l.setAttribute('opacity', '0');
-        vs!.insertBefore(l, vs!.firstChild!.nextSibling);
-        qEls.push(l);
+
+// Drop a query vector into a cluster and light up its k nearest matches.
+function highlightMatches(cl: Cluster, animate: boolean): void {
+  const k = Math.min(5, cl.points.length);
+  const nearest = [...cl.points]
+    .sort((a, b) => Math.hypot(a.x - cl.cx, a.y - cl.cy) - Math.hypot(b.x - cl.cx, b.y - cl.cy))
+    .slice(0, k);
+
+  const q = document.createElementNS(svgNS, 'circle');
+  q.setAttribute('cx', String(cl.cx));
+  q.setAttribute('cy', String(cl.cy));
+  q.setAttribute('r', '5');
+  q.setAttribute('fill', 'url(#vgrad)');
+  q.setAttribute('filter', 'url(#vglow)');
+  vs!.appendChild(q);
+  qEls.push(q);
+
+  nearest.forEach((p, i) => {
+    const light = (): void => {
+      p.el!.setAttribute('fill', 'url(#vgrad)');
+      p.el!.setAttribute('opacity', '1');
+      p.el!.setAttribute('r', '4.5');
+      p.el!.setAttribute('filter', 'url(#vglow)');
+      const l = document.createElementNS(svgNS, 'line');
+      l.setAttribute('x1', String(cl.cx));
+      l.setAttribute('y1', String(cl.cy));
+      l.setAttribute('x2', String(p.x));
+      l.setAttribute('y2', String(p.y));
+      l.setAttribute('stroke', 'url(#vgrad)');
+      l.setAttribute('stroke-width', '1.5');
+      l.setAttribute('opacity', animate ? '0' : '.55');
+      vs!.insertBefore(l, vs!.firstChild!.nextSibling);
+      qEls.push(l);
+      if (animate) {
         requestAnimationFrame(() => {
           l.style.transition = 'opacity .3s';
           l.setAttribute('opacity', '.55');
         });
       }
-    }, i * 90);
+    };
+    if (animate) setTimeout(light, 120 + i * 70);
+    else light();
   });
-  setTimeout(() => readout?.classList.add('show'), chevNodes.length * 90 + 200);
+}
+
+function showStatic(): void {
+  if (!clusters.length) return;
+  highlightMatches(clusters[0], false);
+  if (readout) {
+    readout.innerHTML = clusters[0].readout;
+    readout.classList.add('show');
+  }
+}
+
+let cursor = 0;
+function runQuery(): void {
+  clearQ();
+  readout?.classList.remove('show');
+  if (!W || !clusters.length) return;
+  const cl = clusters[cursor % clusters.length];
+  cursor++;
+  highlightMatches(cl, true);
+  if (readout) readout.innerHTML = cl.readout;
+  setTimeout(() => readout?.classList.add('show'), 120 + 5 * 70 + 150);
   setTimeout(() => clearQ(), 3400);
 }
+
 buildSpace();
-runQuery();
-setInterval(runQuery, 4000);
-addEventListener('resize', () => buildSpace());
+if (prefersReduce) {
+  showStatic();
+} else {
+  runQuery();
+  setInterval(runQuery, 4000);
+}
+addEventListener('resize', () => {
+  buildSpace();
+  if (prefersReduce) showStatic();
+});
 
 // ── SLIDER ──
 const track = document.getElementById('strack')!;
