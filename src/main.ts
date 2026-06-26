@@ -602,19 +602,19 @@ setInterval(() => {
   if (qcounter) qcounter.textContent = qc.toLocaleString();
 }, 200);
 
-// ── LIVE DOWNLOADS COUNTER ── starts at 10,000, +1 every 30–60 minutes
+// ── LIVE DOWNLOADS COUNTER ── starts at 8,401, +1 every 30 / 45 / 60 minutes
 const dlEl = document.getElementById('dlcount');
 if (dlEl) {
-  let downloads = 10000;
+  let downloads = 8401;
   const fmtN = (n: number): string => n.toLocaleString();
   dlEl.textContent = fmtN(downloads);
   const scheduleTick = (): void => {
-    const delayMs = (30 + Math.random() * 30) * 60 * 1000; // 30–60 minutes
+    const mins = [30, 45, 60][Math.floor(Math.random() * 3)];
     setTimeout(() => {
       downloads += 1;
       dlEl.textContent = fmtN(downloads);
       scheduleTick();
-    }, delayMs);
+    }, mins * 60 * 1000);
   };
   scheduleTick();
 }
