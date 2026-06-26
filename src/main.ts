@@ -602,6 +602,23 @@ setInterval(() => {
   if (qcounter) qcounter.textContent = qc.toLocaleString();
 }, 200);
 
+// ── LIVE DOWNLOADS COUNTER ── starts at 10,000, +1 every 30–60 minutes
+const dlEl = document.getElementById('dlcount');
+if (dlEl) {
+  let downloads = 10000;
+  const fmtN = (n: number): string => n.toLocaleString();
+  dlEl.textContent = fmtN(downloads);
+  const scheduleTick = (): void => {
+    const delayMs = (30 + Math.random() * 30) * 60 * 1000; // 30–60 minutes
+    setTimeout(() => {
+      downloads += 1;
+      dlEl.textContent = fmtN(downloads);
+      scheduleTick();
+    }, delayMs);
+  };
+  scheduleTick();
+}
+
 // ── STAT COUNTERS + RECALL DOTS ──
 function countUp(id: string, end: number, fmt: (v: number) => string, dur: number): void {
   const el = document.getElementById(id);
