@@ -724,6 +724,23 @@ document.querySelectorAll<HTMLElement>('.faq-item').forEach((item) => {
   item.addEventListener('click', () => toggleFaq(item));
 });
 
+// ── VIDEO: click-to-play YouTube facade ──
+document.querySelectorAll<HTMLElement>('.vid-frame[data-yt]').forEach((frame) => {
+  const play = (): void => {
+    const id = frame.dataset.yt;
+    if (!id || frame.classList.contains('playing')) return;
+    frame.classList.add('playing');
+    frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="VectorAI DB demo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>`;
+  };
+  frame.addEventListener('click', play);
+  frame.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      play();
+    }
+  });
+});
+
 // ── SCROLL OBSERVER ──
 const io = new IntersectionObserver(
   (es) => {
